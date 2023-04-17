@@ -1,6 +1,7 @@
 package com.nexign.cdr.controller;
 
 import com.nexign.cdr.model.CallRecordModel;
+import com.nexign.cdr.service.CallDataRecordEventSender;
 import com.nexign.cdr.service.DataService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -17,9 +19,11 @@ import java.util.List;
 public class DataController {
 
     private DataService dataService;
+    private CallDataRecordEventSender cdrSender;
 
-    public DataController(DataService dataService) {
+    public DataController(DataService dataService, CallDataRecordEventSender cdrSender) {
         this.dataService = dataService;
+        this.cdrSender = cdrSender;
     }
 
     @PostMapping("/uploadFile")
@@ -32,5 +36,14 @@ public class DataController {
        }
 
         return new ResponseEntity<>(listOfEvents, HttpStatus.OK);
+    }
+
+    @PostMapping("/sendCdr")
+    public ResponseEntity sendEvent() {
+        CallRecordModel cdr = new CallRecordModel("02", "89115554433", new Date(), new Date());
+
+        cdrSender.sendEvent(cdr);
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
