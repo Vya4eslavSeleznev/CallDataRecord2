@@ -8,5 +8,4 @@ import java.util.List;
 public interface DataService {
 
     List<CallRecordModel> uploadFile(MultipartFile file);
-    void createEvent();
 }

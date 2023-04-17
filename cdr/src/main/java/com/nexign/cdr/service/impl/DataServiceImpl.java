@@ -27,39 +27,33 @@ public class DataServiceImpl implements DataService {
             e.printStackTrace();
         }
 
-        for(String str : content) {
-            String[] callRecord = str.split(", ");
+        for( String str : content) {
+            String[] callRecord = str.split(",");
 
             if(callRecord.length != 4) {
                 return null;
             }
 
-            listOfEvents.add(
-              new CallRecordModel(
-                callRecord[0],
-                callRecord[1],
-                stringToDate(callRecord[2]),
-                stringToDate(callRecord[3])));
+            try {
+                listOfEvents.add(
+                  new CallRecordModel(
+                    callRecord[0],
+                    callRecord[1],
+                    stringToDate(callRecord[2]),
+                    stringToDate(callRecord[3])));
+            }
+            catch(ParseException e) {
+                return null;
+            }
         }
 
         return listOfEvents;
     }
 
-    @Override
-    public void createEvent() {
-
-    }
-
-    private Date stringToDate(String stringDate) {
+    private Date stringToDate(String stringDate) throws ParseException {
         Date date;
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-
-        try {
-            date = df.parse(stringDate);
-        } catch (ParseException e) {
-            throw new RuntimeException("Failed to parse date: ", e);
-        }
-
+        date = df.parse(stringDate);
         return date;
     }
 }
