@@ -28,24 +28,14 @@ public class DataController {
 
     @PostMapping("/uploadFile")
     public ResponseEntity<List<CallRecordModel>> uploadFile(@RequestParam("file") MultipartFile file) {
-
        listOfEvents =  dataService.uploadFile(file);
 
        if(listOfEvents == null) {
            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
        }
 
-        return new ResponseEntity<>(listOfEvents, HttpStatus.OK);
-    }
+       cdrSender.sendEvents(listOfEvents);
 
-    @PostMapping("/sendCdr")
-    public ResponseEntity<?> sendEvent() {
-        if(listOfEvents == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        listOfEvents.forEach(cdr -> cdrSender.sendEvent(cdr));
-
-        return new ResponseEntity<>(HttpStatus.OK);
+       return new ResponseEntity<>(listOfEvents, HttpStatus.OK);
     }
 }

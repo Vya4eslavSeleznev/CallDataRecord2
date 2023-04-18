@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CallDataRecordEventSenderImpl implements CallDataRecordEventSender {
 
@@ -18,7 +20,7 @@ public class CallDataRecordEventSenderImpl implements CallDataRecordEventSender 
     }
 
     @Override
-    public void sendEvent(CallRecordModel cdrModel) {
-        jmsTemplate.convertAndSend(cdrQueue, cdrModel);
+    public void sendEvents(List<CallRecordModel> cdrListModel) {
+        cdrListModel.forEach(cdr -> jmsTemplate.convertAndSend(cdrQueue, cdr));
     }
 }

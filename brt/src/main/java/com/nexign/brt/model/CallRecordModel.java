@@ -12,7 +12,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @Data
-public class CallRecordModel {
+public class CallRecordModel implements Serializable {
     private String callType;
     private String phoneNumber;
     private Date startDate;
