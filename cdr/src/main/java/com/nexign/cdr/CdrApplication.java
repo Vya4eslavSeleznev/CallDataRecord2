@@ -9,7 +9,6 @@ import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
 
 @SpringBootApplication
-@EnableJms
 public class CdrApplication {
 
 	public static void main(String[] args) {

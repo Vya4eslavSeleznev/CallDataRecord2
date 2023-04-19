@@ -4,15 +4,17 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nexign.brt.model.CallRecordModel;
 import com.nexign.brt.service.CallDataRecordEventListener;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CallDataRecordEventListenerImpl implements CallDataRecordEventListener {
 
-    @Autowired
     private ObjectMapper objectMapper;
+
+    public CallDataRecordEventListenerImpl(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     @Override
     @JmsListener(destination = "cdr-queue")
