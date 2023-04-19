@@ -16,7 +16,8 @@ public class AccountTransaction {
     private int id;
 
     @Column(nullable = false, name = "account_id")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
     private int accountId;
 
     @Column(nullable = false)
