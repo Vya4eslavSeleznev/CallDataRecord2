@@ -6,19 +6,18 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table
 @Getter
 @Setter
+@Table(name = "manager")
 public class Manager {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
-    @Column(nullable = false, name = "user_id")
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private int userId;
+    @JoinColumn(name = "user_id")
+    private UserCredential userCredential;
 
     @Column(nullable = false)
     private String name;

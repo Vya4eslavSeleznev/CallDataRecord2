@@ -1,31 +1,35 @@
 package com.nexign.user.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
-@Table
 @Getter
 @Setter
+@Table(name = "customer")
+@NoArgsConstructor
 public class Customer {
+
+    public Customer(UserCredential userCredential, String phoneNumber, long tariffId) {
+        this.userCredential = userCredential;
+        this.phoneNumber = phoneNumber;
+        this.tariffId = tariffId;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
-    @Column(nullable = false, name = "user_id")
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private int userId;
+    @JoinColumn(name = "user_id")
+    private UserCredential userCredential;
 
-    @Column(nullable = false)
+    @Column(name = "phone", nullable = false, unique = true)
     private String phoneNumber;
 
-    @Column(nullable = false)
-    private int tariffId;
-
-    @Column(nullable = false)
-    private int accountId;
+    @Column(name = "tariff_id", nullable = false)
+    private long tariffId;
 }
