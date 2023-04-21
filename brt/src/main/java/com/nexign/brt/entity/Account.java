@@ -6,17 +6,17 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table
 @Getter
 @Setter
+@Table(name = "account")
 public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @Column(nullable = false, name = "user_id")
-    private int userId;
+    private long userId;
 
     @Column(nullable = false)
     private double balance;
