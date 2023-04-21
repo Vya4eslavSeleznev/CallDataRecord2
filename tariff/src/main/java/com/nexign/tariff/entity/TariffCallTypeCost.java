@@ -14,11 +14,11 @@ import javax.persistence.*;
 public class TariffCallTypeCost {
 
     public TariffCallTypeCost(TariffCallType tariffCallType, int tarifficationInterval, double price,
-                              Currency currency) {
+                              long currencyId) {
         this.tariffCallType = tariffCallType;
         this.tarifficationInterval = tarifficationInterval;
         this.price = price;
-        this.currency = currency;
+        this.currencyId = currencyId;
     }
 
     @Id
@@ -35,7 +35,7 @@ public class TariffCallTypeCost {
     @Column(nullable = false)
     private double price;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "currency_id")
-    private Currency currency;
+    //@ManyToOne(cascade = CascadeType.ALL)
+    //@JoinColumn(name = "currency_id")
+    private long currencyId;
 }

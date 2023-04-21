@@ -1,45 +1,42 @@
 package com.nexign.tariff.service.impl;
 
-import com.nexign.tariff.entity.*;
+import com.nexign.tariff.entity.Tariff;
+import com.nexign.tariff.entity.TariffCallType;
+import com.nexign.tariff.entity.TariffCallTypeCost;
+import com.nexign.tariff.model.TariffCallTypeModel;
+import com.nexign.tariff.model.TariffCostModel;
 import com.nexign.tariff.model.TariffModel;
 import com.nexign.tariff.repository.TariffCallTypeCostRepository;
-import com.nexign.tariff.repository.TariffCallTypeFreeMinutesRepository;
 import com.nexign.tariff.service.TariffService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class TariffServiceImpl implements TariffService {
 
     private TariffCallTypeCostRepository callTypeCostRepository;
-    private TariffCallTypeFreeMinutesRepository callTypeFreeMinutesRepository;
 
     @Override
     public void saveTariff(TariffModel tariffModel) {
-        Currency currency = new Currency(tariffModel.getCurrencyName(), tariffModel.getCurrencyShortName());
-        TariffCallType tariffCallType = new TariffCallType(
-          new Tariff(tariffModel.getTariffName()), tariffModel.getCallType()
-        );
+        List<TariffCallTypeModel> callTypeModels = tariffModel.getTariffCallTypeModels();
+        Tariff tariff = new Tariff(tariffModel.getTariffName());
 
-        if(tariffModel.getTariffMinutes() != 0) {
-            TariffCallTypeFreeMinutes callTypeFreeMinutes = new TariffCallTypeFreeMinutes(
-              tariffCallType,
-              tariffModel.getTariffMinutes(),
-              tariffModel.getTariffCost(),
-              currency
+        for(TariffCallTypeModel callType : callTypeModels) {
+            List<TariffCostModel> costModels = callType.getTariffCostModels();
+
+            TariffCallType tcp = new TariffCallType(
+              tariff,
+              callType.getCallType()
             );
 
-            callTypeFreeMinutesRepository.save(callTypeFreeMinutes);
+            for(TariffCostModel costModel : costModels) {
+                callTypeCostRepository.save(
+                  new TariffCallTypeCost(tcp, costModel.getInterval(), costModel.getCost(), costModel.getCurrencyId())
+                );
+            }
         }
-
-        TariffCallTypeCost callTypeCost = new TariffCallTypeCost(
-          tariffCallType,
-          tariffModel.getAboveTariffMinutes(),
-          tariffModel.getAboveTariffCost(),
-          currency
-        );
-
-        callTypeCostRepository.save(callTypeCost);
     }
 }

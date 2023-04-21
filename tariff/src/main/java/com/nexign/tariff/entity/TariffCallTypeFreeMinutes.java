@@ -13,11 +13,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class TariffCallTypeFreeMinutes {
 
-    public TariffCallTypeFreeMinutes(TariffCallType tariffCallType, int minutes, double price, Currency currency) {
+    public TariffCallTypeFreeMinutes(TariffCallType tariffCallType, int minutes) {
         this.tariffCallType = tariffCallType;
         this.minutes = minutes;
-        this.price = price;
-        this.currency = currency;
     }
 
     @Id
@@ -30,11 +28,4 @@ public class TariffCallTypeFreeMinutes {
 
     @Column(nullable = false)
     private int minutes;
-
-    @Column(nullable = false)
-    private double price;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "currency_id")
-    private Currency currency;
 }

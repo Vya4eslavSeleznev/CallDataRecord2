@@ -15,7 +15,7 @@ public class TariffController {
 
     private TariffService tariffService;
 
-    @PostMapping("/create")
+    @PostMapping
     public void addTariff(@RequestBody TariffModel tariffModel) {
         tariffService.saveTariff(tariffModel);
     }

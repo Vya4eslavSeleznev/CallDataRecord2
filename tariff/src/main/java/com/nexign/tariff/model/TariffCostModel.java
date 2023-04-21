@@ -5,14 +5,13 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @Data
-public class TariffModel {
+public class TariffCostModel {
 
-    private String tariffName;
-    private List<TariffCallTypeModel> tariffCallTypeModels;
+    private int interval;
+    private double cost;
+    private int currencyId;
 }

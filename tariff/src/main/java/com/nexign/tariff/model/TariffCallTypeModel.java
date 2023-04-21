@@ -11,8 +11,8 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @Data
-public class TariffModel {
+public class TariffCallTypeModel {
 
-    private String tariffName;
-    private List<TariffCallTypeModel> tariffCallTypeModels;
+    private String callType;
+    private List<TariffCostModel> tariffCostModels;
 }
