@@ -1,6 +1,7 @@
 package com.nexign.tariff.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -9,7 +10,16 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(name = "tariff_call_type_cost")
+@NoArgsConstructor
 public class TariffCallTypeCost {
+
+    public TariffCallTypeCost(TariffCallType tariffCallType, int tarifficationInterval, double price,
+                              Currency currency) {
+        this.tariffCallType = tariffCallType;
+        this.tarifficationInterval = tarifficationInterval;
+        this.price = price;
+        this.currency = currency;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +27,7 @@ public class TariffCallTypeCost {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tariff_call_type_id")
-    private long tariffCallTypeId;
+    private TariffCallType tariffCallType;
 
     @Column(name = "tariffication_interval", nullable = false)
     private int tarifficationInterval;
@@ -25,7 +35,7 @@ public class TariffCallTypeCost {
     @Column(nullable = false)
     private double price;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "currency_id")
-    private long currencyId;
+    private Currency currency;
 }

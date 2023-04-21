@@ -15,12 +15,12 @@ public class CustomerController {
 
     private CustomerService customerService;
 
-    @GetMapping("/findByPhone/{phone}")
+    @GetMapping("/find/{phone}")
     public ResponseEntity<FindByPhoneModel> findCustomerByPhone(@PathVariable String phone) {
         return new ResponseEntity<>(customerService.findByPhoneNumber(phone), HttpStatus.OK);
     }
 
-    @PostMapping("/createProfile")
+    @PostMapping("/create")
     public void createProfile(@RequestBody CreateProfileModel profileModel) {
         customerService.saveCustomer(profileModel);
     }
