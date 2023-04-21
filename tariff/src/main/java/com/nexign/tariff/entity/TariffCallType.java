@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class TariffCallType {
 
-    public TariffCallType(Tariff tariff, String callType) {
+    public TariffCallType(Tariff tariff, CallType callType) {
         this.tariff = tariff;
         this.callType = callType;
     }
@@ -27,5 +27,6 @@ public class TariffCallType {
     private Tariff tariff;
 
     @Column(name = "call_type", nullable = false)
-    private String callType;
+    @Enumerated(EnumType.STRING)
+    private CallType callType;
 }

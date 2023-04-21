@@ -15,9 +15,9 @@ public class Currency {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(name = "short_name", nullable = false)
+    @Column(name = "short_name", nullable = false, unique = true)
     private String shortName;
 }

@@ -35,7 +35,5 @@ public class TariffCallTypeCost {
     @Column(nullable = false)
     private double price;
 
-    //@ManyToOne(cascade = CascadeType.ALL)
-    //@JoinColumn(name = "currency_id")
     private long currencyId;
 }
