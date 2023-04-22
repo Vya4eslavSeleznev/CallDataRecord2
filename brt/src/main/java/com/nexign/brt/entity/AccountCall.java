@@ -1,6 +1,7 @@
 package com.nexign.brt.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,7 +11,17 @@ import java.util.Date;
 @Getter
 @Setter
 @Table(name = "account_call")
+@NoArgsConstructor
 public class AccountCall {
+
+    public AccountCall(Account account, CallType callType, Date startDate, Date endDate, Date duration, double cost) {
+        this.account = account;
+        this.callType = callType;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.duration = duration;
+        this.cost = cost;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
