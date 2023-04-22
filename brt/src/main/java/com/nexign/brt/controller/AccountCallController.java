@@ -1,5 +1,6 @@
 package com.nexign.brt.controller;
 
+import com.nexign.brt.exception.AccountNotFoundException;
 import com.nexign.brt.exception.BalanceLessThanZeroException;
 import com.nexign.brt.model.CallCostCalculatedEvent;
 import com.nexign.brt.service.AccountCallService;
@@ -22,11 +23,10 @@ public class AccountCallController {
     public ResponseEntity<?> addCall(@RequestBody CallCostCalculatedEvent costCalculatedEvent) {
         try {
             accountCallService.addCall(costCalculatedEvent);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
-        catch(BalanceLessThanZeroException e) {
+        catch(BalanceLessThanZeroException | AccountNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

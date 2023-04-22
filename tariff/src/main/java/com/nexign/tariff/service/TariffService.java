@@ -5,4 +5,5 @@ import com.nexign.tariff.model.TariffModel;
 public interface TariffService {
 
     void saveTariff(TariffModel tariffModel);
+    TariffModel getTariffInfo(long tariffId);
 }

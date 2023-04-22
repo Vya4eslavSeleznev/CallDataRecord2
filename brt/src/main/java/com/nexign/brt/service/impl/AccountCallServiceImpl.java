@@ -2,6 +2,7 @@ package com.nexign.brt.service.impl;
 
 import com.nexign.brt.entity.Account;
 import com.nexign.brt.entity.AccountCall;
+import com.nexign.brt.exception.AccountNotFoundException;
 import com.nexign.brt.exception.BalanceLessThanZeroException;
 import com.nexign.brt.model.CallCostCalculatedEvent;
 import com.nexign.brt.repository.AccountCallRepository;
@@ -11,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -21,8 +23,15 @@ public class AccountCallServiceImpl implements AccountCallService {
     private AccountCallRepository accountCallRepository;
 
     @Override
-    public void addCall(CallCostCalculatedEvent costCalculatedEvent) throws BalanceLessThanZeroException {
-        Account account = accountRepository.findById(costCalculatedEvent.getAccountId()).get();
+    public void addCall(CallCostCalculatedEvent costCalculatedEvent)
+      throws BalanceLessThanZeroException, AccountNotFoundException {
+         Optional<Account> accountOptional = accountRepository.findById(costCalculatedEvent.getAccountId());
+
+         if(accountOptional.isEmpty()) {
+            throw new AccountNotFoundException("Account not found");
+         }
+
+        Account account = accountOptional.get();
 
         if(account.getBalance() <= 0) {
             throw new BalanceLessThanZeroException("Balance less than zero");

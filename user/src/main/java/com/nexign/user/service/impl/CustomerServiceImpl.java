@@ -2,6 +2,7 @@ package com.nexign.user.service.impl;
 
 import com.nexign.user.entity.Customer;
 import com.nexign.user.entity.UserCredential;
+import com.nexign.user.exception.CustomerNotFoundException;
 import com.nexign.user.model.CreateProfileModel;
 import com.nexign.user.model.FindByPhoneModel;
 import com.nexign.user.repository.CustomerRepository;
@@ -16,10 +17,14 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerRepository customerRepository;
 
     @Override
-    public FindByPhoneModel findByPhoneNumber(String phone) {
+    public FindByPhoneModel findByPhoneNumber(String phone) throws CustomerNotFoundException {
         Customer customer = customerRepository.findByPhoneNumber(phone);
-        FindByPhoneModel model = new FindByPhoneModel(customer.getUserCredential().getId(), customer.getTariffId());
-        return model;
+
+        if(customer == null) {
+            throw new CustomerNotFoundException("Customer not found");
+        }
+
+        return new FindByPhoneModel(customer.getUserCredential().getId(), customer.getTariffId());
     }
 
     @Override

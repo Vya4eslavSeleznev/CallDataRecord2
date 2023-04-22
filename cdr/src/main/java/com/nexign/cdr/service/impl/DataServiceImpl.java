@@ -16,16 +16,11 @@ import java.util.List;
 public class DataServiceImpl implements DataService {
 
     @Override
-    public List<CallRecordModel> uploadFile(MultipartFile file) {
+    public List<CallRecordModel> uploadFile(MultipartFile file) throws IOException, ParseException {
         List<CallRecordModel> listOfEvents = new ArrayList<>();
         String[] content = new String[0];
 
-        try {
-            content = new String(file.getBytes()).split("\r\n");
-        }
-        catch(IOException e) {
-            e.printStackTrace();
-        }
+        content = new String(file.getBytes()).split("\r\n");
 
         for( String str : content) {
             String[] callRecord = str.split(",");
@@ -34,17 +29,13 @@ public class DataServiceImpl implements DataService {
                 return null;
             }
 
-            try {
-                listOfEvents.add(
-                  new CallRecordModel(
-                    callRecord[0],
-                    callRecord[1],
-                    stringToDate(callRecord[2]),
-                    stringToDate(callRecord[3])));
-            }
-            catch(ParseException e) {
-                return null;
-            }
+            listOfEvents.add(
+              new CallRecordModel(
+                callRecord[0],
+                callRecord[1],
+                stringToDate(callRecord[2]),
+                stringToDate(callRecord[3]))
+            );
         }
 
         return listOfEvents;
