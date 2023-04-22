@@ -33,4 +33,9 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = new Customer(user, profileModel.getPhoneNumber(), profileModel.getTariffId());
         customerRepository.save(customer);
     }
+
+//    @Override
+//    public String findPhoneNumberByUserId(long userId) {
+//        return null;
+//    }
 }

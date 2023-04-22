@@ -8,4 +8,5 @@ public interface CustomerService {
 
     FindByPhoneModel findByPhoneNumber(String phone) throws CustomerNotFoundException;
     void saveCustomer(CreateProfileModel profileModel);
+    //String findPhoneNumberByUserId(long userId);
 }

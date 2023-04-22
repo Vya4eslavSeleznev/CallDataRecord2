@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.Duration;
 import java.util.Date;
 
 @Getter
@@ -19,5 +20,5 @@ public class CallAuthorizedModel implements Serializable {
     private long tariffId;
     private Date startDate;
     private Date endDate;
-    private int minutesSpent;
+    private long minutesSpent;
 }
