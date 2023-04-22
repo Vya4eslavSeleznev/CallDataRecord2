@@ -1,5 +1,6 @@
 package com.nexign.tariff.model;
 
+import com.nexign.tariff.entity.TariffType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -14,4 +15,5 @@ public class TariffForHrsModel {
     private int interval;
     private double cost;
     private long currencyId;
+    private TariffType tariffType;
 }

@@ -4,10 +4,8 @@ import com.nexign.tariff.entity.CallType;
 import com.nexign.tariff.entity.Tariff;
 import com.nexign.tariff.entity.TariffCallType;
 import com.nexign.tariff.entity.TariffCallTypeCost;
-import com.nexign.tariff.model.TariffCallTypeModel;
-import com.nexign.tariff.model.TariffCostModel;
-import com.nexign.tariff.model.TariffForHrsModel;
-import com.nexign.tariff.model.TariffModel;
+import com.nexign.tariff.exception.TariffNotFoundException;
+import com.nexign.tariff.model.*;
 import com.nexign.tariff.repository.TariffCallTypeCostRepository;
 import com.nexign.tariff.repository.TariffCallTypeRepository;
 import com.nexign.tariff.repository.TariffRepository;
@@ -41,16 +39,24 @@ public class TariffServiceImpl implements TariffService {
 
             for(TariffCostModel costModel : costModels) {
                 callTypeCostRepository.save(
-                  new TariffCallTypeCost(tcp, costModel.getInterval(), costModel.getCost(), costModel.getCurrencyId())
+                  new TariffCallTypeCost(tcp, costModel.getInterval(), costModel.getCost(),
+                    costModel.getCurrencyId(), costModel.getTariffType())
                 );
             }
         }
     }
 
     @Override
-    public List<TariffForHrsModel> getTariffInfo(long tariffId, CallType callType) {
-        TariffCallType tariffCallType = callTypeRepository.findByTariffIdAndCallType(tariffId, callType);
+    public List<TariffForHrsModel> getTariffInfo(TariffByParametersModel tariffByParametersModel) throws TariffNotFoundException {
+        TariffCallType tariffCallType = callTypeRepository.findByTariffIdAndCallType(
+          tariffByParametersModel.getTariffId(), tariffByParametersModel.getCallType());
+
+        if(tariffCallType == null) {
+            throw new TariffNotFoundException("Tariff not found");
+        }
+
         List<TariffCallTypeCost> tariffCallTypeCosts = callTypeCostRepository.findByTariffCallTypeId(tariffCallType.getId());
+
         List<TariffForHrsModel> modelList = new ArrayList<>();
 
         for(TariffCallTypeCost tariffCallTypeCost : tariffCallTypeCosts) {
@@ -58,7 +64,8 @@ public class TariffServiceImpl implements TariffService {
               new TariffForHrsModel(
                 tariffCallTypeCost.getTarifficationInterval(),
                 tariffCallTypeCost.getPrice(),
-                tariffCallTypeCost.getCurrencyId())
+                tariffCallTypeCost.getCurrencyId(),
+                tariffCallTypeCost.getTariffType())
               );
         }
 
