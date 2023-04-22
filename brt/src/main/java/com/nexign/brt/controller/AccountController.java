@@ -1,15 +1,19 @@
 package com.nexign.brt.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.nexign.brt.model.BalanceUpdateByPhone;
+import com.nexign.brt.service.AccountTransactionService;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/account")
+@AllArgsConstructor
 public class AccountController {
 
-    @GetMapping("/")
-    public void getUserInfo() {
+    private AccountTransactionService accountTransactionService;
 
+    @PostMapping("/balance")
+    public void updateBalanceByPhone(@RequestBody BalanceUpdateByPhone balanceUpdateByPhone) {
+        accountTransactionService.addTransaction(balanceUpdateByPhone.getPhoneNumber(), balanceUpdateByPhone.getAmount());
     }
 }

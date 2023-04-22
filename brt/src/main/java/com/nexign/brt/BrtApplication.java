@@ -13,8 +13,8 @@ public class BrtApplication {
 
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(BrtApplication.class, args);
-		var a = context.getBean(AccountCallRepository.class).findByAccountIdAndDate(7, new Date(2023, 4, 1), new Date(2023, 4, 30));
-		System.out.println(a);
+//		var a = context.getBean(AccountCallRepository.class).findByAccountIdAndDate(7, new Date(2023, 4, 1), new Date(2023, 4, 30));
+//		System.out.println(a);
 	}
 
 }
