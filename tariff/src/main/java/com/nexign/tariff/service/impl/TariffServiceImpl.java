@@ -1,10 +1,12 @@
 package com.nexign.tariff.service.impl;
 
+import com.nexign.tariff.entity.CallType;
 import com.nexign.tariff.entity.Tariff;
 import com.nexign.tariff.entity.TariffCallType;
 import com.nexign.tariff.entity.TariffCallTypeCost;
 import com.nexign.tariff.model.TariffCallTypeModel;
 import com.nexign.tariff.model.TariffCostModel;
+import com.nexign.tariff.model.TariffForHrsModel;
 import com.nexign.tariff.model.TariffModel;
 import com.nexign.tariff.repository.TariffCallTypeCostRepository;
 import com.nexign.tariff.repository.TariffCallTypeRepository;
@@ -46,34 +48,20 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    public TariffModel getTariffInfo(long tariffId) {
-        List<TariffCallType> callTypeList = callTypeRepository.findByTariffId(tariffId);
-        List<TariffCallTypeCost> callTypeCostList = new ArrayList<>();
+    public List<TariffForHrsModel> getTariffInfo(long tariffId, CallType callType) {
+        TariffCallType tariffCallType = callTypeRepository.findByTariffIdAndCallType(tariffId, callType);
+        List<TariffCallTypeCost> tariffCallTypeCosts = callTypeCostRepository.findByTariffCallTypeId(tariffCallType.getId());
+        List<TariffForHrsModel> modelList = new ArrayList<>();
 
-        for(TariffCallType callType : callTypeList) {
-            callTypeCostList.add(
-              callTypeCostRepository.findByTariffCallTypeId(callType.getId())
-            );
+        for(TariffCallTypeCost tariffCallTypeCost : tariffCallTypeCosts) {
+            modelList.add(
+              new TariffForHrsModel(
+                tariffCallTypeCost.getTarifficationInterval(),
+                tariffCallTypeCost.getPrice(),
+                tariffCallTypeCost.getCurrencyId())
+              );
         }
 
-        List<TariffCallTypeModel> tariffCallTypeModels = new ArrayList<>();
-
-        for(TariffCallTypeCost callTypeCost : callTypeCostList) {
-
-
-        }
-
-
-
-
-
-
-
-        //TariffModel tariffModel = new TariffModel(tariff.getName(), );
-
-
-
-
-        return null;
+        return modelList;
     }
 }
