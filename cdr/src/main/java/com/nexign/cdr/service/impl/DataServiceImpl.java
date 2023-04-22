@@ -53,7 +53,7 @@ public class DataServiceImpl implements DataService {
     private Date stringToDate(String stringDate) throws ParseException {
         Date date;
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-        date = df.parse(stringDate);
+        date = df.parse(stringDate.trim());
         return date;
     }
 }

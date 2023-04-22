@@ -1,4 +1,4 @@
-package com.nexign.cdr.model;
+package com.nexign.brt.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,10 +12,12 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @Data
-public class CallRecordModel implements Serializable {
+public class CallAuthorizedModel implements Serializable {
 
     private String callType;
-    private String phoneNumber;
+    private long accountId;
+    private long tariffId;
     private Date startDate;
     private Date endDate;
+    private int minutesSpent;
 }

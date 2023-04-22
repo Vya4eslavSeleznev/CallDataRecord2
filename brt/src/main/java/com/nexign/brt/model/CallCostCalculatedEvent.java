@@ -1,21 +1,22 @@
-package com.nexign.cdr.model;
+package com.nexign.brt.model;
 
+import com.nexign.brt.entity.CallType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
 import java.util.Date;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @Data
-public class CallRecordModel implements Serializable {
+public class CallCostCalculatedEvent {
 
-    private String callType;
-    private String phoneNumber;
+    private long accountId;
+    private CallType callType;
+    private double cost;
     private Date startDate;
     private Date endDate;
 }

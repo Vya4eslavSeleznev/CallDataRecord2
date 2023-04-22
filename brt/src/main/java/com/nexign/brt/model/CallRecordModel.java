@@ -1,4 +1,4 @@
-package com.nexign.cdr.model;
+package com.nexign.brt.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
