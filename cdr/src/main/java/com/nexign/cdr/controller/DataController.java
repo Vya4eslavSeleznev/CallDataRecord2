@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -24,11 +26,17 @@ public class DataController {
 
     @PostMapping("/file")
     public ResponseEntity<List<CallRecordModel>> uploadFile(@RequestParam("file") MultipartFile file) {
-        List<CallRecordModel> listOfEvents =  dataService.uploadFile(file);
+        List<CallRecordModel> listOfEvents = null;
+        try {
+            listOfEvents = dataService.uploadFile(file);
+        }
+        catch(IOException | ParseException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
-       if(listOfEvents == null) {
+        if(listOfEvents == null) {
            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-       }
+        }
 
        cdrSender.sendEvents(listOfEvents);
 

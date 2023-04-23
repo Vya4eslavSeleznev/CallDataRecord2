@@ -1,10 +1,13 @@
 package com.nexign.brt.entity;
 
+import io.hypersistence.utils.hibernate.type.interval.PostgreSQLIntervalType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
+import java.time.Duration;
 import java.util.Date;
 
 @Entity
@@ -12,9 +15,10 @@ import java.util.Date;
 @Setter
 @Table(name = "account_call")
 @NoArgsConstructor
+@TypeDef(typeClass = PostgreSQLIntervalType.class, defaultForType = Duration.class)
 public class AccountCall {
 
-    public AccountCall(Account account, CallType callType, Date startDate, Date endDate, Date duration, double cost) {
+    public AccountCall(Account account, CallType callType, Date startDate, Date endDate, Duration duration, double cost) {
         this.account = account;
         this.callType = callType;
         this.startDate = startDate;
@@ -42,7 +46,7 @@ public class AccountCall {
     private Date endDate;
 
     @Column(nullable = false)
-    private Date duration;
+    private Duration duration;
 
     @Column(nullable = false)
     private double cost;

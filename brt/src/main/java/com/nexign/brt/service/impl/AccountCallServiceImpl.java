@@ -2,6 +2,7 @@ package com.nexign.brt.service.impl;
 
 import com.nexign.brt.entity.Account;
 import com.nexign.brt.entity.AccountCall;
+import com.nexign.brt.exception.AccountNotFoundException;
 import com.nexign.brt.exception.BalanceLessThanZeroException;
 import com.nexign.brt.model.CallCostCalculatedEvent;
 import com.nexign.brt.repository.AccountCallRepository;
@@ -10,8 +11,10 @@ import com.nexign.brt.service.AccountCallService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.time.Duration;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -21,28 +24,31 @@ public class AccountCallServiceImpl implements AccountCallService {
     private AccountCallRepository accountCallRepository;
 
     @Override
-    public void addCall(CallCostCalculatedEvent costCalculatedEvent) throws BalanceLessThanZeroException {
-        Account account = accountRepository.findById(costCalculatedEvent.getAccountId()).get();
+    @Transactional
+    public void addCall(CallCostCalculatedEvent costCalculatedEvent)
+      throws BalanceLessThanZeroException, AccountNotFoundException {
+         Optional<Account> accountOptional = accountRepository.findById(costCalculatedEvent.getAccountId());
+
+         if(accountOptional.isEmpty()) {
+            throw new AccountNotFoundException("Account not found");
+         }
+
+        Account account = accountOptional.get();
 
         if(account.getBalance() <= 0) {
             throw new BalanceLessThanZeroException("Balance less than zero");
         }
 
-        double oldBalance = account.getBalance();
-        account.setBalance(oldBalance - costCalculatedEvent.getCost());
-        accountRepository.save(account);
-
         Date startDate = costCalculatedEvent.getStartDate();
         Date endDate = costCalculatedEvent.getEndDate();
-        Date duration = new Date(getDateDiff(startDate, endDate));
+        Duration duration = Duration.ofMillis(endDate.getTime() - startDate.getTime());
 
         accountCallRepository.save(
           new AccountCall(account, costCalculatedEvent.getCallType(), startDate, endDate, duration, costCalculatedEvent.getCost())
         );
-    }
 
-    private long getDateDiff(Date startDate, Date endDate) {
-        long diffInMollies = endDate.getTime() - startDate.getTime();
-        return TimeUnit.SECONDS.convert(diffInMollies, TimeUnit.MILLISECONDS);
+        double oldBalance = account.getBalance();
+        account.setBalance(oldBalance - costCalculatedEvent.getCost());
+        accountRepository.save(account);
     }
 }

@@ -13,12 +13,13 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class TariffCallTypeCost {
 
-    public TariffCallTypeCost(TariffCallType tariffCallType, int tarifficationInterval, double price,
-                              long currencyId) {
+    public TariffCallTypeCost(TariffCallType tariffCallType, int tarifficationInterval, double price, long currencyId,
+                              TariffType tariffType) {
         this.tariffCallType = tariffCallType;
         this.tarifficationInterval = tarifficationInterval;
         this.price = price;
         this.currencyId = currencyId;
+        this.tariffType = tariffType;
     }
 
     @Id
@@ -36,4 +37,8 @@ public class TariffCallTypeCost {
     private double price;
 
     private long currencyId;
+
+    @Column(name = "type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TariffType tariffType;
 }

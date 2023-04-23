@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.Duration;
 import java.util.Date;
 
 @Getter
@@ -19,4 +20,5 @@ public class CallCostCalculatedEvent {
     private double cost;
     private Date startDate;
     private Date endDate;
+    private Duration duration;
 }

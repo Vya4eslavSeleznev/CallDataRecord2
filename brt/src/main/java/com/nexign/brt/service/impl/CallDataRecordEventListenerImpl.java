@@ -7,6 +7,7 @@ import com.nexign.brt.exception.BalanceLessThanZeroException;
 import com.nexign.brt.model.CallAuthorizedModel;
 import com.nexign.brt.model.CallRecordModel;
 import com.nexign.brt.model.FindByPhoneModel;
+import com.nexign.brt.repository.AccountCallRepository;
 import com.nexign.brt.repository.AccountRepository;
 import com.nexign.brt.service.CallDataRecordEventListener;
 import com.nexign.brt.service.UserGateway;
@@ -14,6 +15,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
+
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 public class CallDataRecordEventListenerImpl implements CallDataRecordEventListener {
@@ -23,15 +29,18 @@ public class CallDataRecordEventListenerImpl implements CallDataRecordEventListe
     private final JmsTemplate jmsTemplate;
     private final String brtQueue;
     private UserGateway userGateway;
+    private AccountCallRepository accountCallRepository;
 
     public CallDataRecordEventListenerImpl(ObjectMapper objectMapper, AccountRepository accountRepository,
                                            JmsTemplate jmsTemplate, @Value("${brt.queue}") String brtQueue,
-                                           UserGateway userGateway) {
+                                           UserGateway userGateway,
+                                           AccountCallRepository accountCallRepository) {
         this.objectMapper = objectMapper;
         this.accountRepository = accountRepository;
         this.jmsTemplate = jmsTemplate;
         this.brtQueue = brtQueue;
         this.userGateway = userGateway;
+        this.accountCallRepository = accountCallRepository;
     }
 
     @Override
@@ -46,13 +55,18 @@ public class CallDataRecordEventListenerImpl implements CallDataRecordEventListe
                 throw new BalanceLessThanZeroException("Balance less than zero");
             }
 
+            LocalDate currentDate = LocalDate.now();
+
+            Optional<Long> minutesSpentOpt = accountCallRepository.findByAccountIdAndDate(account.getId(),
+              currentDate.getMonthValue(), currentDate.getYear());
+
             CallAuthorizedModel cam = new CallAuthorizedModel(
               event.getCallType(),
               account.getId(),
               userInfo.getTariffId(),
               event.getStartDate(),
               event.getEndDate(),
-              0
+              minutesSpentOpt.isPresent() ? minutesSpentOpt.get() : 0
             );
 
             jmsTemplate.convertAndSend(brtQueue, objectMapper.writeValueAsString(cam));
@@ -61,6 +75,4 @@ public class CallDataRecordEventListenerImpl implements CallDataRecordEventListe
             e.printStackTrace();
         }
     }
-
-
 }
