@@ -37,3 +37,11 @@ hrs/.mvn/wrapper/maven-wrapper.properties
 hrs/.idea/*
 hrs/target/*
 hrs/hrs.iml
+
+crm/mvnw
+crm/mvnw.cmd
+crm/.mvn/wrapper/maven-wrapper.jar
+crm/.mvn/wrapper/maven-wrapper.properties
+crm/.idea/*
+crm/target/*
+crm/crm.iml
