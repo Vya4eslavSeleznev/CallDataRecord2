@@ -6,10 +6,7 @@ import com.nexign.crm.model.PaymentModel;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
@@ -22,15 +19,6 @@ public class CrmController {
     public CrmController(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
-
-    //
-//    @Override
-//    public FindByPhoneModel getUserInfo(String phoneNumber) {
-//        RestTemplate restTemplate = new RestTemplate();
-//        return restTemplate.getForObject(url + phoneNumber, FindByPhoneModel.class);
-//    }
-
-
 
     @PatchMapping("/abonent/pay/")
     public ResponseEntity<?> payment(@RequestBody PaymentModel paymentModel) {
@@ -47,7 +35,12 @@ public class CrmController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        HttpEntity<String> entity = new HttpEntity<String>(requestJson, headers);
+        HttpEntity<String> entity = new HttpEntity<>(requestJson, headers);
         return restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
+    }
+
+    @GetMapping("/abonent/report/{numberPhone}")
+    public void customerReport(@PathVariable String phoneNumber) {
+
     }
 }
