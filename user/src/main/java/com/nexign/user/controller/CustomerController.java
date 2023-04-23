@@ -30,8 +30,8 @@ public class CustomerController {
         }
 }
 
-    @PostMapping
-    public ResponseEntity<Customer> createProfile(@RequestBody CreateProfileModel profileModel) {
+    @PostMapping("/profile")
+    public ResponseEntity<Long> createProfile(@RequestBody CreateProfileModel profileModel) {
         return new ResponseEntity<>(customerService.saveCustomer(profileModel), HttpStatus.OK);
     }
 

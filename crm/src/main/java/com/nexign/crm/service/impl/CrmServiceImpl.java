@@ -17,6 +17,8 @@ public class CrmServiceImpl implements CrmService {
     private @Value("${user.tariff.url}") String userTariffUrl;
     private @Value("${user.info.url}") String userInfoUrl;
     private @Value("${brt.calls.url}") String brtCallsUrl;
+    private @Value("${user.save.url}") String saveUserUrl;
+    private @Value("${brt.account.url}") String createAccountUrl;
 
     public CrmServiceImpl(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
@@ -24,7 +26,7 @@ public class CrmServiceImpl implements CrmService {
 
     @Override
     public PaymentResponseModel callBrtPayment(PaymentModel paymentModel) {
-        String resultId = callUrl(paymentModel, brtPaymentUrl).getBody();
+        String resultId = callUrl(paymentModel, brtPaymentUrl, HttpMethod.PUT).getBody();
 
         if(resultId == null) {
             return null;
@@ -39,7 +41,7 @@ public class CrmServiceImpl implements CrmService {
 
     @Override
     public ChangeTariffResponseModel changeTariff(ChangeTariffModel changeTariffModel) {
-        String userId = callUrl(changeTariffModel, userTariffUrl).getBody();
+        String userId = callUrl(changeTariffModel, userTariffUrl, HttpMethod.PUT).getBody();
 
         if(userId == null) {
             return null;
@@ -74,6 +76,30 @@ public class CrmServiceImpl implements CrmService {
     }
 
 
+    @Override
+    public CreateCustomerModel createCustomer(CreateCustomerModel createCustomerModel) {
+        CreateProfileModel createProfileModel = new CreateProfileModel(
+          createCustomerModel.getPhoneNumber(),
+          createCustomerModel.getPassword(),
+          "USER",
+          createCustomerModel.getTariffId()
+        );
+
+        String userId = callUrl(createProfileModel, saveUserUrl, HttpMethod.POST).getBody();
+
+        if(userId == null) {
+            return null;
+        }
+
+        CreateAccountRequestModel createAccountRequestModel = new CreateAccountRequestModel(
+          Long.parseLong(userId),
+          createCustomerModel.getBalance()
+        );
+
+        callUrl(createAccountRequestModel, createAccountUrl, HttpMethod.POST);
+
+        return createCustomerModel;
+    }
 
 
 
@@ -87,7 +113,7 @@ public class CrmServiceImpl implements CrmService {
 
 
 
-    private ResponseEntity<String> callUrl(Object obj, String url) {
+    private ResponseEntity<String> callUrl(Object obj, String url, HttpMethod httpMethod) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -101,6 +127,6 @@ public class CrmServiceImpl implements CrmService {
         }
 
         HttpEntity<String> entity = new HttpEntity<>(requestJson, headers);
-        return restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
+        return restTemplate.exchange(url, httpMethod, entity, String.class);
     }
 }

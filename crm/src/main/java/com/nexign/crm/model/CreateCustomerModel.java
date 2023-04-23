@@ -1,4 +1,4 @@
-package com.nexign.user.model;
+package com.nexign.crm.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,10 +9,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @Data
-public class CreateProfileModel {
+public class CreateCustomerModel {
 
     private String phoneNumber;
     private char[] password;
-    private String role;
     private long tariffId;
+    private double balance;
 }

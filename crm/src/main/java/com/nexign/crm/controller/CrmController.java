@@ -30,7 +30,8 @@ public class CrmController {
     }
 
     @PostMapping("/manager/abonent")
-    public void createUser(@RequestBody CreateProfileModel createProfileModel) {
+    public ResponseEntity<CreateCustomerModel> createUser(@RequestBody CreateCustomerModel createCustomerModel) {
+        return new ResponseEntity<>(crmService.createCustomer(createCustomerModel), HttpStatus.OK);
     }
 
     @PatchMapping("manager/changeTariff")

@@ -29,10 +29,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer saveCustomer(CreateProfileModel profileModel) {
+    public long saveCustomer(CreateProfileModel profileModel) {
         UserCredential user = new UserCredential(profileModel.getRole(), profileModel.getPassword());
         Customer customer = new Customer(user, profileModel.getPhoneNumber(), profileModel.getTariffId());
-        return customerRepository.save(customer);
+        customerRepository.save(customer);
+        return user.getId();
     }
 
     @Override

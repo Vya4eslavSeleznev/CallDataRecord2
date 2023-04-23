@@ -9,10 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @Data
-public class CreateProfileModel {
+public class CreateAccountRequestModel {
 
-    private String phoneNumber;
-    private char[] password;
-    private String role;
-    private long tariffId;
+    private long userId;
+    private double balance;
 }

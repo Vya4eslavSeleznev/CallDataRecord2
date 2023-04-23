@@ -8,4 +8,5 @@ public interface CrmService {
     PaymentResponseModel callBrtPayment(PaymentModel paymentModel);
     ChangeTariffResponseModel changeTariff(ChangeTariffModel changeTariffModel);
     ReportModel generateReport(String phoneNumber);
+    CreateCustomerModel createCustomer(CreateCustomerModel createCustomerModel);
 }

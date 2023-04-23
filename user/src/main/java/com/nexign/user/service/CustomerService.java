@@ -9,6 +9,6 @@ import com.nexign.user.model.FindByPhoneModel;
 public interface CustomerService {
 
     FindByPhoneModel findByPhoneNumber(String phone) throws CustomerNotFoundException;
-    Customer saveCustomer(CreateProfileModel profileModel);
+    long saveCustomer(CreateProfileModel profileModel);
     long changeTariff(ChangeTariffModel changeTariffModel);
 }

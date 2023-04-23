@@ -1,11 +1,14 @@
 package com.nexign.brt.controller;
 
-import com.nexign.brt.entity.Account;
 import com.nexign.brt.model.BalanceUpdateByPhone;
+import com.nexign.brt.model.CreateAccountRequestModel;
+import com.nexign.brt.service.AccountService;
 import com.nexign.brt.service.AccountTransactionService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/account")
@@ -13,14 +16,15 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController {
 
     private AccountTransactionService accountTransactionService;
+    private AccountService accountService;
 
     @PostMapping("/balance")
     public void updateBalanceByPhone(@RequestBody BalanceUpdateByPhone balanceUpdateByPhone) {
         accountTransactionService.addTransaction(balanceUpdateByPhone.getPhoneNumber(), balanceUpdateByPhone.getAmount());
     }
 
-//    @GetMapping("/all")
-//    public ResponseEntity<List<Account>> getAccounts() {
-//
-//    }
+    @PostMapping
+    public void createAccount(@RequestBody CreateAccountRequestModel createAccountRequestModel) {
+        accountService.createAccount(createAccountRequestModel);
+    }
 }
