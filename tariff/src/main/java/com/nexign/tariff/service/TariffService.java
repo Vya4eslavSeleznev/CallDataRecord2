@@ -11,5 +11,5 @@ import java.util.List;
 public interface TariffService {
 
     void saveTariff(TariffModel tariffModel);
-    List<TariffForHrsModel> getTariffInfo(TariffByParametersModel tariffByParametersModel) throws TariffNotFoundException;
+    List<TariffForHrsModel> getTariffInfo(long tariffId, CallType callType) throws TariffNotFoundException;
 }

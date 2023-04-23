@@ -5,7 +5,10 @@ import com.nexign.tariff.entity.Tariff;
 import com.nexign.tariff.entity.TariffCallType;
 import com.nexign.tariff.entity.TariffCallTypeCost;
 import com.nexign.tariff.exception.TariffNotFoundException;
-import com.nexign.tariff.model.*;
+import com.nexign.tariff.model.TariffCallTypeModel;
+import com.nexign.tariff.model.TariffCostModel;
+import com.nexign.tariff.model.TariffForHrsModel;
+import com.nexign.tariff.model.TariffModel;
 import com.nexign.tariff.repository.TariffCallTypeCostRepository;
 import com.nexign.tariff.repository.TariffCallTypeRepository;
 import com.nexign.tariff.repository.TariffRepository;
@@ -47,9 +50,8 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    public List<TariffForHrsModel> getTariffInfo(TariffByParametersModel tariffByParametersModel) throws TariffNotFoundException {
-        TariffCallType tariffCallType = callTypeRepository.findByTariffIdAndCallType(
-          tariffByParametersModel.getTariffId(), tariffByParametersModel.getCallType());
+    public List<TariffForHrsModel> getTariffInfo(long tariffId, CallType callType) throws TariffNotFoundException {
+        TariffCallType tariffCallType = callTypeRepository.findByTariffIdAndCallType(tariffId, callType);
 
         if(tariffCallType == null) {
             throw new TariffNotFoundException("Tariff not found");

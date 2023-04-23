@@ -1,5 +1,6 @@
 package com.nexign.tariff.controller;
 
+import com.nexign.tariff.entity.CallType;
 import com.nexign.tariff.exception.TariffNotFoundException;
 import com.nexign.tariff.model.TariffByParametersModel;
 import com.nexign.tariff.model.TariffForHrsModel;
@@ -24,10 +25,10 @@ public class TariffController {
         tariffService.saveTariff(tariffModel);
     }
 
-    @GetMapping
-    public ResponseEntity<List<TariffForHrsModel>> getTariff(@RequestBody TariffByParametersModel tariffByParametersModel) {
+    @GetMapping("/{tariffId}/{callType}")
+    public ResponseEntity<List<TariffForHrsModel>> getTariff(@PathVariable long tariffId, @PathVariable CallType callType) {
         try {
-            List<TariffForHrsModel> modelList = tariffService.getTariffInfo(tariffByParametersModel);
+            List<TariffForHrsModel> modelList = tariffService.getTariffInfo(tariffId, callType);
             return new ResponseEntity<>(modelList, HttpStatus.OK);
         }
         catch(TariffNotFoundException e) {
