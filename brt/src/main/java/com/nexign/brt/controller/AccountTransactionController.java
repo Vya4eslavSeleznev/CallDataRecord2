@@ -3,20 +3,19 @@ package com.nexign.brt.controller;
 import com.nexign.brt.entity.AccountTransaction;
 import com.nexign.brt.model.PaymentModel;
 import com.nexign.brt.service.AccountTransactionService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/transaction")
+@AllArgsConstructor
 public class AccountTransactionController {
 
     private AccountTransactionService accountTransactionService;
 
-    @PatchMapping
+    @PutMapping
     public ResponseEntity<AccountTransaction> customerPayment(@RequestBody PaymentModel paymentModel) {
         AccountTransaction accountTransaction =
           accountTransactionService.addTransaction(paymentModel.getPhoneNumber(),paymentModel.getAmount());
