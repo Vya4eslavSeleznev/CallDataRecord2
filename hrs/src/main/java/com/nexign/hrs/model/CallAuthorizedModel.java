@@ -14,7 +14,7 @@ import java.util.Date;
 @Data
 public class CallAuthorizedModel implements Serializable {
 
-    private String callType;
+    private CallType callType;
     private long accountId;
     private long tariffId;
     private Date startDate;

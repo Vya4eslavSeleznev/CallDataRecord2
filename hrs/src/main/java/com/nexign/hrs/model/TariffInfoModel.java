@@ -13,4 +13,5 @@ public class TariffInfoModel {
     private double cost;
     private long currencyId;
     private TariffType tariffType;
+    private CallType callType;
 }

@@ -67,8 +67,9 @@ public class TariffServiceImpl implements TariffService {
                 tariffCallTypeCost.getTarifficationInterval(),
                 tariffCallTypeCost.getPrice(),
                 tariffCallTypeCost.getCurrencyId(),
-                tariffCallTypeCost.getTariffType())
-              );
+                tariffCallTypeCost.getTariffType(),
+                tariffCallTypeCost.getTariffCallType().getCallType()
+              ));
         }
 
         return modelList;
