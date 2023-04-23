@@ -1,6 +1,8 @@
 package com.nexign.user.controller;
 
+import com.nexign.user.entity.Customer;
 import com.nexign.user.exception.CustomerNotFoundException;
+import com.nexign.user.model.ChangeTariffModel;
 import com.nexign.user.model.CreateProfileModel;
 import com.nexign.user.model.FindByPhoneModel;
 import com.nexign.user.service.CustomerService;
@@ -29,7 +31,12 @@ public class CustomerController {
 }
 
     @PostMapping
-    public void createProfile(@RequestBody CreateProfileModel profileModel) {
-        customerService.saveCustomer(profileModel);
+    public ResponseEntity<Customer> createProfile(@RequestBody CreateProfileModel profileModel) {
+        return new ResponseEntity<>(customerService.saveCustomer(profileModel), HttpStatus.OK);
+    }
+
+    @PutMapping("/tariff")
+    public ResponseEntity<Customer> changeTariff(@RequestBody ChangeTariffModel changeTariffModel) {
+        return new ResponseEntity<>(customerService.changeTariff(changeTariffModel), HttpStatus.OK);
     }
 }

@@ -3,6 +3,7 @@ package com.nexign.user.service.impl;
 import com.nexign.user.entity.Customer;
 import com.nexign.user.entity.UserCredential;
 import com.nexign.user.exception.CustomerNotFoundException;
+import com.nexign.user.model.ChangeTariffModel;
 import com.nexign.user.model.CreateProfileModel;
 import com.nexign.user.model.FindByPhoneModel;
 import com.nexign.user.repository.CustomerRepository;
@@ -28,14 +29,16 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void saveCustomer(CreateProfileModel profileModel) {
+    public Customer saveCustomer(CreateProfileModel profileModel) {
         UserCredential user = new UserCredential(profileModel.getRole(), profileModel.getPassword());
         Customer customer = new Customer(user, profileModel.getPhoneNumber(), profileModel.getTariffId());
-        customerRepository.save(customer);
+        return customerRepository.save(customer);
     }
 
-//    @Override
-//    public String findPhoneNumberByUserId(long userId) {
-//        return null;
-//    }
+    @Override
+    public Customer changeTariff(ChangeTariffModel changeTariffModel) {
+        Customer customer = customerRepository.findByPhoneNumber(changeTariffModel.getPhoneNumber());
+        customer.setTariffId(changeTariffModel.getTariffId());
+        return customerRepository.save(customer);
+    }
 }

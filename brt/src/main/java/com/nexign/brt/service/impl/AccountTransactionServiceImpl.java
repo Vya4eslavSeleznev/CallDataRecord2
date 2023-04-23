@@ -19,7 +19,7 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
     private AccountRepository accountRepository;
 
     @Override
-    public AccountTransaction addTransaction(String phoneNumber, double amount) {
+    public long addTransaction(String phoneNumber, double amount) {
         FindByPhoneModel userInfo = userGateway.getUserInfo(phoneNumber);
         Account account = accountRepository.findByUserId(userInfo.getUserId());
 
@@ -29,6 +29,6 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
 
         return accountTransactionRepository.save(
           new AccountTransaction(account, amount)
-        );
+        ).getId();
     }
 }
