@@ -33,9 +33,9 @@ public class CrmController {
     public void createUser(@RequestBody CreateProfileModel createProfileModel) {
     }
 
-//    @PatchMapping("manager/changeTariff")
-//    public ResponseEntity<?> changeTariff(@RequestBody ChangeTariffModel changeTariffModel) {
-//        return crmService.callBrtPayment(changeTariffModel);
-//    }
+    @PatchMapping("manager/changeTariff")
+    public ResponseEntity<ChangeTariffResponseModel> changeTariff(@RequestBody ChangeTariffModel changeTariffModel) {
+        return new ResponseEntity<>(crmService.changeTariff(changeTariffModel), HttpStatus.OK);
+    }
 
 }

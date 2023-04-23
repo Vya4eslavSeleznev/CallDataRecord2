@@ -30,20 +30,26 @@ public class CrmServiceImpl implements CrmService {
             return null;
         }
 
-        long id = Long.parseLong(resultId);
-
-        PaymentResponseModel returnModel = new PaymentResponseModel(
-          id,
+        return new PaymentResponseModel(
+          Long.parseLong(resultId),
           paymentModel.getPhoneNumber(),
           paymentModel.getAmount()
         );
-
-        return returnModel;
     }
 
     @Override
-    public ResponseEntity<?> callUserTariff(Object obj) {
-        return callUrl(obj, userTariffUrl);
+    public ChangeTariffResponseModel changeTariff(ChangeTariffModel changeTariffModel) {
+        String userId = callUrl(changeTariffModel, userTariffUrl).getBody();
+
+        if(userId == null) {
+            return null;
+        }
+
+        return new ChangeTariffResponseModel(
+          Long.parseLong(userId),
+          changeTariffModel.getPhoneNumber(),
+          changeTariffModel.getTariffId()
+        );
     }
 
     @Override

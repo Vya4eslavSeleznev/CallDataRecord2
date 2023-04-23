@@ -10,5 +10,5 @@ public interface CustomerService {
 
     FindByPhoneModel findByPhoneNumber(String phone) throws CustomerNotFoundException;
     Customer saveCustomer(CreateProfileModel profileModel);
-    Customer changeTariff(ChangeTariffModel changeTariffModel);
+    long changeTariff(ChangeTariffModel changeTariffModel);
 }

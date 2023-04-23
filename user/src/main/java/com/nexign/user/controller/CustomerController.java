@@ -36,7 +36,7 @@ public class CustomerController {
     }
 
     @PutMapping("/tariff")
-    public ResponseEntity<Customer> changeTariff(@RequestBody ChangeTariffModel changeTariffModel) {
+    public ResponseEntity<Long> changeTariff(@RequestBody ChangeTariffModel changeTariffModel) {
         return new ResponseEntity<>(customerService.changeTariff(changeTariffModel), HttpStatus.OK);
     }
 }

@@ -36,9 +36,9 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer changeTariff(ChangeTariffModel changeTariffModel) {
+    public long changeTariff(ChangeTariffModel changeTariffModel) {
         Customer customer = customerRepository.findByPhoneNumber(changeTariffModel.getPhoneNumber());
         customer.setTariffId(changeTariffModel.getTariffId());
-        return customerRepository.save(customer);
+        return customerRepository.save(customer).getId();
     }
 }
