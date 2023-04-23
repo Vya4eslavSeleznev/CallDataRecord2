@@ -1,10 +1,6 @@
-package com.nexign.brt.model;
+package com.nexign.crm.model;
 
-import com.nexign.brt.entity.AccountCall;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -12,6 +8,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @Data
+@NoArgsConstructor
 public class UserCallsModel {
 
     private List<AccountCallResponseModel> accountCallList;

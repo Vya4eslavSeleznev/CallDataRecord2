@@ -4,6 +4,7 @@ import com.nexign.brt.entity.Account;
 import com.nexign.brt.entity.AccountCall;
 import com.nexign.brt.exception.AccountNotFoundException;
 import com.nexign.brt.exception.BalanceLessThanZeroException;
+import com.nexign.brt.model.AccountCallResponseModel;
 import com.nexign.brt.model.CallCostCalculatedEvent;
 import com.nexign.brt.model.UserCallsModel;
 import com.nexign.brt.repository.AccountCallRepository;
@@ -17,6 +18,7 @@ import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -58,7 +60,23 @@ public class AccountCallServiceImpl implements AccountCallService {
     public UserCallsModel findUserCalls(long userId) {
         Account account = accountRepository.findByUserId(userId);
         List<AccountCall> accountCallList = accountCallRepository.findByAccountId(account.getId());
-        double totalAmount = accountCallList.stream().mapToDouble(AccountCall::getCost).sum();
-        return new UserCallsModel(accountCallList, totalAmount);
+
+        List<AccountCallResponseModel> callResponseModels =
+          accountCallList
+          .stream()
+          .map(elem -> new AccountCallResponseModel(
+            elem.getCallType(),
+            elem.getStartDate(),
+            elem.getEndDate(),
+            elem.getDuration(),
+            elem.getCost()))
+          .collect(Collectors.toList());
+
+        double totalAmount = accountCallList
+          .stream()
+          .mapToDouble(AccountCall::getCost)
+          .sum();
+
+        return new UserCallsModel(callResponseModels, totalAmount);
     }
 }

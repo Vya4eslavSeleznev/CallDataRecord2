@@ -2,8 +2,7 @@ package com.nexign.crm.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nexign.crm.model.PaymentModel;
-import com.nexign.crm.model.PaymentResponseModel;
+import com.nexign.crm.model.*;
 import com.nexign.crm.service.CrmService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -16,6 +15,8 @@ public class CrmServiceImpl implements CrmService {
     private ObjectMapper objectMapper;
     private @Value("${brt.payment.url}") String brtPaymentUrl;
     private @Value("${user.tariff.url}") String userTariffUrl;
+    private @Value("${user.info.url}") String userInfoUrl;
+    private @Value("${brt.calls.url}") String brtCallsUrl;
 
     public CrmServiceImpl(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
@@ -44,6 +45,40 @@ public class CrmServiceImpl implements CrmService {
     public ResponseEntity<?> callUserTariff(Object obj) {
         return callUrl(obj, userTariffUrl);
     }
+
+    @Override
+    public ReportModel generateReport(String phoneNumber) {
+        RestTemplate restTemplate = new RestTemplate();
+        FindByPhoneModel findByPhoneModel = restTemplate.getForObject(userInfoUrl + phoneNumber, FindByPhoneModel.class);
+
+        if(findByPhoneModel == null) {
+            return null;
+        }
+
+        UserCallsModel userCallsModel = restTemplate.getForObject(brtCallsUrl + findByPhoneModel.getUserId(), UserCallsModel.class);
+
+         return new ReportModel(
+          findByPhoneModel.getUserId(),
+          phoneNumber,
+          findByPhoneModel.getTariffId(),
+          userCallsModel.getAccountCallList(),
+          userCallsModel.getTotalAmount(),
+          null
+        );
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     private ResponseEntity<String> callUrl(Object obj, String url) {

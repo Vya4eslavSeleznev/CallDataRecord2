@@ -9,4 +9,5 @@ import java.util.List;
 public interface TariffCallTypeCostRepository extends CrudRepository<TariffCallTypeCost, Long> {
 
     List<TariffCallTypeCost> findByTariffCallTypeId(long tariffCallTypeId);
+    //List<TariffCallTypeCost> findByTariffCallTypeCost_TariffCallType_Tariff(long tariffId);
 }

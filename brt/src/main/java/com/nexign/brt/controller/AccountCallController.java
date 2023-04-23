@@ -3,14 +3,12 @@ package com.nexign.brt.controller;
 import com.nexign.brt.exception.AccountNotFoundException;
 import com.nexign.brt.exception.BalanceLessThanZeroException;
 import com.nexign.brt.model.CallCostCalculatedEvent;
+import com.nexign.brt.model.UserCallsModel;
 import com.nexign.brt.service.AccountCallService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/call")
@@ -28,5 +26,10 @@ public class AccountCallController {
         catch(BalanceLessThanZeroException | AccountNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserCallsModel> customerCalls(@PathVariable long userId) {
+        return new ResponseEntity<>(accountCallService.findUserCalls(userId), HttpStatus.OK);
     }
 }

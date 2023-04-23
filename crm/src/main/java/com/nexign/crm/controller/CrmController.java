@@ -1,9 +1,6 @@
 package com.nexign.crm.controller;
 
-import com.nexign.crm.model.ChangeTariffModel;
-import com.nexign.crm.model.CreateProfileModel;
-import com.nexign.crm.model.PaymentModel;
-import com.nexign.crm.model.PaymentResponseModel;
+import com.nexign.crm.model.*;
 import com.nexign.crm.service.CrmService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,9 +19,9 @@ public class CrmController {
         return new ResponseEntity<>(crmService.callBrtPayment(paymentModel), HttpStatus.OK);
     }
 
-    @GetMapping("/abonent/report/{numberPhone}")
-    public void customerReport(@PathVariable String phoneNumber) {
-
+    @GetMapping("/abonent/report/{phoneNumber}")
+    public ResponseEntity<ReportModel> customerReport(@PathVariable String phoneNumber) {
+        return new ResponseEntity<>(crmService.generateReport(phoneNumber), HttpStatus.OK);
     }
 
     @PatchMapping("/manager/billing")
