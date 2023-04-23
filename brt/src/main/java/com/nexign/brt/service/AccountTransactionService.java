@@ -1,6 +1,8 @@
 package com.nexign.brt.service;
 
+import com.nexign.brt.entity.AccountTransaction;
+
 public interface AccountTransactionService {
 
-    void addTransaction(String phoneNumber, double amount);
+    AccountTransaction addTransaction(String phoneNumber, double amount);
 }
