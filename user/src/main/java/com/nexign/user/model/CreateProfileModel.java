@@ -15,5 +15,4 @@ public class CreateProfileModel {
     private char[] password;
     private String role;
     private long tariffId;
-    private long accountId;
 }

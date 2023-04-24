@@ -1,32 +1,35 @@
 package com.nexign.brt;
 
-import com.nexign.brt.entity.CallType;
-import com.nexign.brt.exception.AccountNotFoundException;
-import com.nexign.brt.exception.BalanceLessThanZeroException;
-import com.nexign.brt.model.CallCostCalculatedEvent;
-import com.nexign.brt.service.AccountCallService;
+import com.nexign.brt.model.UserBalanceModel;
+import com.nexign.brt.repository.AccountRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootApplication
 public class BrtApplication {
 
 	public static void main(String[] args) {
 		ConfigurableApplicationContext c = SpringApplication.run(BrtApplication.class, args);
-//		try {
-//			c.getBean(AccountCallService.class).addCall(
-//			new CallCostCalculatedEvent(6L, CallType.OUTPUT, 51, new Date(2023, 04, 21), new Date(2023, 04, 22))
-//			);
-//		}
-//		catch(BalanceLessThanZeroException e) {
-//			e.printStackTrace();
-//		}
-//		catch(AccountNotFoundException e) {
-//			e.printStackTrace();
-//		}
+
+//		List<Long> ids = new ArrayList<>();
+//		ids.add(7L);
+//		ids.add(11L);
+//		ids.add(8L);
+//		ids.add(9L);
+//		ids.add(10L);
+//		ids.add(12L);
+//		ids.add(15L);
+//
+//
+//		List<UserBalanceModel> g = c.getBean(AccountRepository.class).findByUserIdIn(ids);
+//
+
+
+		System.out.println();
 	}
 
 }

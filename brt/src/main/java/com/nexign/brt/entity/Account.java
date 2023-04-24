@@ -11,6 +11,11 @@ import javax.persistence.*;
 @Table(name = "account")
 public class Account {
 
+    public Account(long userId, double balance) {
+        this.userId = userId;
+        this.balance = balance;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
