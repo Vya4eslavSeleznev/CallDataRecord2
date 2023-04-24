@@ -6,10 +6,15 @@ import com.nexign.user.exception.CustomerNotFoundException;
 import com.nexign.user.model.ChangeTariffModel;
 import com.nexign.user.model.CreateProfileModel;
 import com.nexign.user.model.FindByPhoneModel;
+import com.nexign.user.model.UserPhoneNumberModel;
 import com.nexign.user.repository.CustomerRepository;
 import com.nexign.user.service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -41,5 +46,14 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerRepository.findByPhoneNumber(changeTariffModel.getPhoneNumber());
         customer.setTariffId(changeTariffModel.getTariffId());
         return customerRepository.save(customer).getId();
+    }
+
+    public List<UserPhoneNumberModel> getPhoneNumbers(List<Long> idList) {
+        List<Customer> customers = customerRepository.findByUserIds(idList);
+
+        return customers
+          .stream()
+          .map(c -> new UserPhoneNumberModel(c.getUserCredential().getId(), c.getPhoneNumber()))
+          .collect(Collectors.toList());
     }
 }

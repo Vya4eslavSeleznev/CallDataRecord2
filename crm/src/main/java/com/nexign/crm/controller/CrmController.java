@@ -25,8 +25,8 @@ public class CrmController {
     }
 
     @PatchMapping("/manager/billing")
-    public void billing() {
-
+    public ResponseEntity<BillingModel> billing() {
+        return new ResponseEntity<>(crmService.runBilling(), HttpStatus.OK);
     }
 
     @PostMapping("/manager/abonent")

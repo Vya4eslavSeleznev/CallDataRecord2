@@ -2,13 +2,15 @@ package com.nexign.brt.controller;
 
 import com.nexign.brt.model.BalanceUpdateByPhone;
 import com.nexign.brt.model.CreateAccountRequestModel;
+import com.nexign.brt.model.UserBalanceModel;
 import com.nexign.brt.service.AccountService;
 import com.nexign.brt.service.AccountTransactionService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/account")
@@ -26,5 +28,10 @@ public class AccountController {
     @PostMapping
     public void createAccount(@RequestBody CreateAccountRequestModel createAccountRequestModel) {
         accountService.createAccount(createAccountRequestModel);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserBalanceModel>> getAccounts() {
+        return new ResponseEntity<>(accountService.getAccounts(), HttpStatus.OK);
     }
 }

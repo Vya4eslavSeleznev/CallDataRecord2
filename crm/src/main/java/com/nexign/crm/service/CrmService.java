@@ -9,4 +9,5 @@ public interface CrmService {
     ChangeTariffResponseModel changeTariff(ChangeTariffModel changeTariffModel);
     ReportModel generateReport(String phoneNumber);
     CreateCustomerModel createCustomer(CreateCustomerModel createCustomerModel);
+    BillingModel runBilling();
 }
