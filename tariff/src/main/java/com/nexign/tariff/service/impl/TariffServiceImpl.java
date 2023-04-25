@@ -74,8 +74,4 @@ public class TariffServiceImpl implements TariffService {
 
         return modelList;
     }
-
-    public void getCurrencyByTariffId() {
-
-    }
 }

@@ -7,7 +7,6 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-@Data
 @NoArgsConstructor
 public class UserCallsModel {
 

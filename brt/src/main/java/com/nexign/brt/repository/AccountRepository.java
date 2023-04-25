@@ -10,7 +10,4 @@ public interface AccountRepository extends CrudRepository<Account, Long> {
 
     Account findByUserId(long userId);
     List<UserBalanceInterface> findAllBy();
-
-
-    // List<UserBalanceModel> findByUserIdIn(List<Long> userIds);
 }

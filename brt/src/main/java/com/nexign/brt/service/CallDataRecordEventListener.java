@@ -4,5 +4,5 @@ import com.nexign.brt.exception.BalanceLessThanZeroException;
 
 public interface CallDataRecordEventListener {
 
-    void processMessage(String cdrModel) throws BalanceLessThanZeroException, InterruptedException;
+    void processMessage(String cdrModel) throws BalanceLessThanZeroException;
 }

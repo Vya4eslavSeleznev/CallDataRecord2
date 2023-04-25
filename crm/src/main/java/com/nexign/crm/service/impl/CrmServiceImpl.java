@@ -27,8 +27,6 @@ public class CrmServiceImpl implements CrmService {
     private @Value("${brt.billing.url}") String billingUrl;
     private @Value("${user.phones.url}") String userPhonesUrl;
 
-
-
     public CrmServiceImpl(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
@@ -123,7 +121,6 @@ public class CrmServiceImpl implements CrmService {
           .map(UserBalanceModel::getUserId)
           .collect(Collectors.toList());
 
-
         String phonesStr = callUrl(idList, userPhonesUrl, HttpMethod.POST).getBody();
 
         if(phonesStr == null) {
@@ -158,16 +155,6 @@ public class CrmServiceImpl implements CrmService {
 
         return new BillingModel(phoneAndBalanceList);
     }
-
-
-
-
-
-
-
-
-
-
 
     private ResponseEntity<String> callUrl(Object obj, String url, HttpMethod httpMethod) {
         RestTemplate restTemplate = new RestTemplate();

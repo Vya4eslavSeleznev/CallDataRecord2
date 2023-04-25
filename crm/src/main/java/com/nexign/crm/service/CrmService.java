@@ -1,7 +1,6 @@
 package com.nexign.crm.service;
 
 import com.nexign.crm.model.*;
-import org.springframework.http.ResponseEntity;
 
 public interface CrmService {
 
