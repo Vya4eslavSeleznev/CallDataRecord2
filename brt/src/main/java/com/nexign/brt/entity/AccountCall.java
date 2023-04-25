@@ -35,7 +35,7 @@ public class AccountCall {
     @JoinColumn(name = "account_id")
     private Account account;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "call_type")
     @Enumerated(EnumType.STRING)
     private CallType callType;
 

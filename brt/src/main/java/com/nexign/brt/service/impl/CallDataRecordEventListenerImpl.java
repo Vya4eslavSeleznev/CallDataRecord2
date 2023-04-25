@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nexign.brt.entity.Account;
 import com.nexign.brt.exception.BalanceLessThanZeroException;
-import com.nexign.brt.model.CallAuthorizedModel;
+import com.nexign.brt.model.CallAuthorizedEvent;
 import com.nexign.brt.model.CallRecordModel;
 import com.nexign.brt.model.FindByPhoneModel;
 import com.nexign.brt.repository.AccountCallRepository;
@@ -58,7 +58,7 @@ public class CallDataRecordEventListenerImpl implements CallDataRecordEventListe
             Optional<Long> minutesSpentOpt = accountCallRepository.findByAccountIdAndDate(account.getId(),
               currentDate.getMonthValue(), currentDate.getYear());
 
-            CallAuthorizedModel cam = new CallAuthorizedModel(
+            CallAuthorizedEvent cam = new CallAuthorizedEvent(
               event.getCallType(),
               account.getId(),
               userInfo.getTariffId(),

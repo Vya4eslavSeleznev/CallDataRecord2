@@ -54,7 +54,7 @@ public class TariffServiceImpl implements TariffService {
         TariffCallType tariffCallType = callTypeRepository.findByTariffIdAndCallType(tariffId, callType);
 
         if(tariffCallType == null) {
-            throw new TariffNotFoundException("Tariff not found");
+            throw new TariffNotFoundException();
         }
 
         List<TariffCallTypeCost> tariffCallTypeCosts = callTypeCostRepository.findByTariffCallTypeId(tariffCallType.getId());

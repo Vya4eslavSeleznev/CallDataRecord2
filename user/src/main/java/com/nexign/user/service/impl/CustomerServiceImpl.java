@@ -26,7 +26,7 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerRepository.findByPhoneNumber(phone);
 
         if(customer == null) {
-            throw new CustomerNotFoundException("Customer not found");
+            throw new CustomerNotFoundException();
         }
 
         return new FindByPhoneModel(customer.getUserCredential().getId(), customer.getTariffId());
@@ -47,6 +47,7 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.save(customer).getId();
     }
 
+    @Override
     public List<UserPhoneNumberModel> getPhoneNumbers(List<Long> idList) {
         List<Customer> customers = customerRepository.findByUserIds(idList);
 

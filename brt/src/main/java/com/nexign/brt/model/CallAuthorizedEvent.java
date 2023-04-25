@@ -10,7 +10,7 @@ import java.util.Date;
 @Getter
 @Setter
 @AllArgsConstructor
-public class CallAuthorizedModel implements Serializable {
+public class CallAuthorizedEvent implements Serializable {
 
     private String callType;
     private long accountId;

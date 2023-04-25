@@ -21,7 +21,7 @@ public class CalculateServiceImpl implements CalculateService {
     private TariffGateway tariffGateway;
 
     @Override
-    public CallCostCalculatedEvent calculation(CallAuthorizedModel event) throws AboveTariffRateNotFoundException {
+    public CallCostCalculatedEvent calculation(CallAuthorizedEvent event) throws AboveTariffRateNotFoundException {
         List<TariffInfoModel> tariffList = tariffGateway.getTariffInfo(
           event.getTariffId(),
           event.getCallType()
@@ -46,7 +46,7 @@ public class CalculateServiceImpl implements CalculateService {
           .findFirst();
     }
 
-    private CallCostCalculatedEvent calculationInternal(CallAuthorizedModel event, TariffInfoModel tariffInfo) {
+    private CallCostCalculatedEvent calculationInternal(CallAuthorizedEvent event, TariffInfoModel tariffInfo) {
         CallCostCalculatedEvent calculatedEvent = new CallCostCalculatedEvent();
 
         calculatedEvent.setAccountId(event.getAccountId());

@@ -34,13 +34,13 @@ public class AccountCallServiceImpl implements AccountCallService {
          Optional<Account> accountOptional = accountRepository.findById(costCalculatedEvent.getAccountId());
 
          if(accountOptional.isEmpty()) {
-            throw new AccountNotFoundException("Account not found");
+            throw new AccountNotFoundException();
          }
 
         Account account = accountOptional.get();
 
         if(account.getBalance() <= 0) {
-            throw new BalanceLessThanZeroException("Balance less than zero");
+            throw new BalanceLessThanZeroException();
         }
 
         Date startDate = costCalculatedEvent.getStartDate();
@@ -51,8 +51,13 @@ public class AccountCallServiceImpl implements AccountCallService {
           new AccountCall(account, costCalculatedEvent.getCallType(), startDate, endDate, duration, costCalculatedEvent.getCost())
         );
 
-        double oldBalance = account.getBalance();
-        account.setBalance(oldBalance - costCalculatedEvent.getCost());
+        double newBalance = account.getBalance() - costCalculatedEvent.getCost();
+
+        if(newBalance < 0) {
+            throw new BalanceLessThanZeroException();
+        }
+
+        account.setBalance(newBalance);
         accountRepository.save(account);
     }
 

@@ -26,7 +26,7 @@ public class DataController {
 
     @PostMapping("/file")
     public ResponseEntity<List<CallRecordModel>> uploadFile(@RequestParam("file") MultipartFile file) {
-        List<CallRecordModel> listOfEvents = null;
+        List<CallRecordModel> listOfEvents;
         try {
             listOfEvents = dataService.uploadFile(file);
         }

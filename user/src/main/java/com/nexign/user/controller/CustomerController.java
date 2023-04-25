@@ -28,7 +28,7 @@ public class CustomerController {
             return new ResponseEntity<>(findByPhoneModel, HttpStatus.OK);
         }
         catch(CustomerNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 }
 
