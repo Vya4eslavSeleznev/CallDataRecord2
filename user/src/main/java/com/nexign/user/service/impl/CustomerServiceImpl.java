@@ -10,6 +10,7 @@ import com.nexign.user.model.UserPhoneNumberModel;
 import com.nexign.user.repository.CustomerRepository;
 import com.nexign.user.service.CustomerService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 public class CustomerServiceImpl implements CustomerService {
 
     private CustomerRepository customerRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public FindByPhoneModel findByPhoneNumber(String phone) throws CustomerNotFoundException {
@@ -34,7 +36,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public long saveCustomer(CreateProfileModel profileModel) {
-        UserCredential user = new UserCredential(profileModel.getRole(), profileModel.getPassword());
+        UserCredential user = new UserCredential(
+          profileModel.getRole(),
+          passwordEncoder.encode(profileModel.getPassword()),
+          profileModel.getUsername()
+        );
+
         Customer customer = new Customer(user, profileModel.getPhoneNumber(), profileModel.getTariffId());
         customerRepository.save(customer);
         return user.getId();

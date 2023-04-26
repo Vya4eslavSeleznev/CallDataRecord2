@@ -11,7 +11,8 @@ import lombok.Setter;
 public class CreateProfileModel {
 
     private String phoneNumber;
-    private char[] password;
+    private String password;
+    private String username;
     private Role role;
     private long tariffId;
 }
