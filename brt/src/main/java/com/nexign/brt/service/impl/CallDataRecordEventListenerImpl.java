@@ -50,7 +50,7 @@ public class CallDataRecordEventListenerImpl implements CallDataRecordEventListe
             Account account = accountRepository.findByUserId(userInfo.getUserId());
 
             if(account.getBalance() <= 0) {
-                throw new BalanceLessThanZeroException("Balance less than zero");
+                throw new BalanceLessThanZeroException();
             }
 
             LocalDate currentDate = LocalDate.now();
