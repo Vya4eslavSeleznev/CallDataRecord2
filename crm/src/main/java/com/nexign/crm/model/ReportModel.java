@@ -1,5 +1,6 @@
 package com.nexign.crm.model;
 
+import com.nexign.common.model.AccountCallResponseModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

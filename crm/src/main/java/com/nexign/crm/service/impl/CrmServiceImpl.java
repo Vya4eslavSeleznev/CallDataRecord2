@@ -3,6 +3,7 @@ package com.nexign.crm.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nexign.common.model.*;
 import com.nexign.crm.model.*;
 import com.nexign.crm.service.CrmService;
 import org.springframework.beans.factory.annotation.Value;
@@ -84,11 +85,12 @@ public class CrmServiceImpl implements CrmService {
 
 
     @Override
-    public CreateCustomerModel createCustomer(CreateCustomerModel createCustomerModel) {
+    public CreateCustomerResponse createCustomer(CreateCustomerModel createCustomerModel) {
         CreateProfileModel createProfileModel = new CreateProfileModel(
           createCustomerModel.getPhoneNumber(),
           createCustomerModel.getPassword(),
-          "USER",
+          createCustomerModel.getUsername(),
+          Role.USER,
           createCustomerModel.getTariffId()
         );
 
@@ -105,7 +107,11 @@ public class CrmServiceImpl implements CrmService {
 
         callUrl(createAccountRequestModel, createAccountUrl, HttpMethod.POST);
 
-        return createCustomerModel;
+        return new CreateCustomerResponse(
+          createCustomerModel.getPhoneNumber(),
+          createCustomerModel.getTariffId(),
+          createCustomerModel.getBalance()
+        );
     }
 
     @Override

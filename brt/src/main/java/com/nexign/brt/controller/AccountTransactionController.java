@@ -1,6 +1,6 @@
 package com.nexign.brt.controller;
 
-import com.nexign.brt.model.PaymentModel;
+import com.nexign.common.model.PaymentModel;
 import com.nexign.brt.service.AccountTransactionService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

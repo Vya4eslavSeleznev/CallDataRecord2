@@ -1,8 +1,8 @@
 package com.nexign.hrs.service;
 
+import com.nexign.common.model.CallAuthorizedEvent;
 import com.nexign.hrs.exception.AboveTariffRateNotFoundException;
-import com.nexign.hrs.model.CallAuthorizedEvent;
-import com.nexign.hrs.model.CallCostCalculatedEvent;
+import com.nexign.common.model.CallCostCalculatedEvent;
 
 public interface CalculateService {
 

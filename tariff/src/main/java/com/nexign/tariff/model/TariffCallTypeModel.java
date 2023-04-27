@@ -1,6 +1,6 @@
 package com.nexign.tariff.model;
 
-import com.nexign.tariff.entity.CallType;
+import com.nexign.common.model.CallType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

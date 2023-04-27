@@ -1,10 +1,10 @@
 package com.nexign.user.controller;
 
+import com.nexign.common.model.ChangeTariffModel;
+import com.nexign.common.model.CreateProfileModel;
+import com.nexign.common.model.UserPhoneNumberModel;
 import com.nexign.user.exception.CustomerNotFoundException;
-import com.nexign.user.model.ChangeTariffModel;
-import com.nexign.user.model.CreateProfileModel;
 import com.nexign.user.model.FindByPhoneModel;
-import com.nexign.user.model.UserPhoneNumberModel;
 import com.nexign.user.service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -2,9 +2,9 @@ package com.nexign.hrs.service.Impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nexign.common.model.CallAuthorizedEvent;
 import com.nexign.hrs.exception.AboveTariffRateNotFoundException;
-import com.nexign.hrs.model.CallAuthorizedEvent;
-import com.nexign.hrs.model.CallCostCalculatedEvent;
+import com.nexign.common.model.CallCostCalculatedEvent;
 import com.nexign.hrs.service.CalculateService;
 import com.nexign.hrs.service.HrsListenerService;
 import org.springframework.beans.factory.annotation.Value;

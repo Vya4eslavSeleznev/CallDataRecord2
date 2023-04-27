@@ -10,7 +10,8 @@ import lombok.Setter;
 public class CreateCustomerModel {
 
     private String phoneNumber;
-    private char[] password;
+    private String password;
+    private String username;
     private long tariffId;
     private double balance;
 }

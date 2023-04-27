@@ -1,5 +1,6 @@
 package com.nexign.brt.entity;
 
+import com.nexign.common.model.CallType;
 import io.hypersistence.utils.hibernate.type.interval.PostgreSQLIntervalType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

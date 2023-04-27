@@ -1,6 +1,6 @@
 package com.nexign.cdr.service;
 
-import com.nexign.cdr.model.CallRecordModel;
+import com.nexign.common.model.CallRecordModel;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

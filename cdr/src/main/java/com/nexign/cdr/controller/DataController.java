@@ -1,8 +1,8 @@
 package com.nexign.cdr.controller;
 
-import com.nexign.cdr.model.CallRecordModel;
 import com.nexign.cdr.service.CallDataRecordEventSender;
 import com.nexign.cdr.service.DataService;
+import com.nexign.common.model.CallRecordModel;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

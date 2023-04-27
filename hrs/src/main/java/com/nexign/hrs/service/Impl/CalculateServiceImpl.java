@@ -1,7 +1,7 @@
 package com.nexign.hrs.service.Impl;
 
+import com.nexign.common.model.*;
 import com.nexign.hrs.exception.AboveTariffRateNotFoundException;
-import com.nexign.hrs.model.*;
 import com.nexign.hrs.service.CalculateService;
 import com.nexign.hrs.service.TariffGateway;
 import lombok.AllArgsConstructor;

@@ -1,5 +1,7 @@
 package com.nexign.crm.controller;
 
+import com.nexign.common.model.ChangeTariffModel;
+import com.nexign.common.model.PaymentModel;
 import com.nexign.crm.model.*;
 import com.nexign.crm.service.CrmService;
 import lombok.AllArgsConstructor;
@@ -30,7 +32,7 @@ public class CrmController {
     }
 
     @PostMapping("/manager/abonent")
-    public ResponseEntity<CreateCustomerModel> createUser(@RequestBody CreateCustomerModel createCustomerModel) {
+    public ResponseEntity<CreateCustomerResponse> createUser(@RequestBody CreateCustomerModel createCustomerModel) {
         return new ResponseEntity<>(crmService.createCustomer(createCustomerModel), HttpStatus.OK);
     }
 

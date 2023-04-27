@@ -1,5 +1,6 @@
 package com.nexign.user.entity;
 
+import com.nexign.common.model.Role;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -35,7 +36,7 @@ public class UserCredential implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Override

@@ -4,12 +4,12 @@ import com.nexign.brt.entity.Account;
 import com.nexign.brt.entity.AccountCall;
 import com.nexign.brt.exception.AccountNotFoundException;
 import com.nexign.brt.exception.BalanceLessThanZeroException;
-import com.nexign.brt.model.AccountCallResponseModel;
-import com.nexign.brt.model.CallCostCalculatedEvent;
-import com.nexign.brt.model.UserCallsModel;
 import com.nexign.brt.repository.AccountCallRepository;
 import com.nexign.brt.repository.AccountRepository;
 import com.nexign.brt.service.AccountCallService;
+import com.nexign.common.model.AccountCallResponseModel;
+import com.nexign.common.model.CallCostCalculatedEvent;
+import com.nexign.common.model.UserCallsModel;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

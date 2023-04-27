@@ -1,6 +1,6 @@
 package com.nexign.brt.service.impl;
 
-import com.nexign.brt.model.FindByPhoneModel;
+import com.nexign.common.model.FindByPhoneModel;
 import com.nexign.brt.service.UserGateway;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

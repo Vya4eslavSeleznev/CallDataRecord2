@@ -1,10 +1,10 @@
 package com.nexign.brt.controller;
 
 import com.nexign.brt.model.BalanceUpdateByPhone;
-import com.nexign.brt.model.CreateAccountRequestModel;
-import com.nexign.brt.model.UserBalanceModel;
+import com.nexign.common.model.CreateAccountRequestModel;
 import com.nexign.brt.service.AccountService;
 import com.nexign.brt.service.AccountTransactionService;
+import com.nexign.common.model.UserBalanceModel;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
