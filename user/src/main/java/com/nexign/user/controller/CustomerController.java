@@ -5,10 +5,13 @@ import com.nexign.common.model.CreateProfileModel;
 import com.nexign.common.model.UserPhoneNumberModel;
 import com.nexign.user.exception.CustomerNotFoundException;
 import com.nexign.user.model.FindByPhoneModel;
+import com.nexign.user.model.LoadUserByUsernameModel;
 import com.nexign.user.service.CustomerService;
+import com.nexign.user.service.impl.CustomUserDetailsService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +22,7 @@ import java.util.List;
 public class CustomerController {
 
     private CustomerService customerService;
+    private CustomUserDetailsService customUserDetailsService;
 
     @GetMapping("/{phone}")
     public ResponseEntity<FindByPhoneModel> findCustomerByPhone(@PathVariable String phone) {
@@ -45,5 +49,13 @@ public class CustomerController {
     @PostMapping("/phones")
     public ResponseEntity<List<UserPhoneNumberModel>> getUserPhones(@RequestBody List<Long> userIds) {
         return new ResponseEntity<>(customerService.getPhoneNumbers(userIds), HttpStatus.OK);
+    }
+
+    @PostMapping("/username")
+    public ResponseEntity<UserDetails> loadUserByUsername(@RequestBody LoadUserByUsernameModel loadUserByUsernameModel) {
+        return new ResponseEntity<>(
+          customUserDetailsService.loadUserByUsername(loadUserByUsernameModel.getUsername()),
+          HttpStatus.OK
+        );
     }
 }

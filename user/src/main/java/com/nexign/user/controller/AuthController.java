@@ -2,7 +2,7 @@ package com.nexign.user.controller;
 
 import com.nexign.user.entity.UserCredential;
 import com.nexign.user.exception.InvalidUserNameOrPasswordException;
-import com.nexign.user.model.AuthRequestModel;
+import com.nexign.common.model.AuthRequestModel;
 import com.nexign.user.security.jwt.JwtTokenProvider;
 import com.nexign.user.service.impl.CustomUserDetailsService;
 import lombok.AllArgsConstructor;
@@ -29,7 +29,6 @@ public class AuthController {
     public ResponseEntity<?> singIn(@RequestBody AuthRequestModel request) {
         try {
             UserCredential user = userDetailsService.getAuthenticatedUser(request.getUsername(), request.getPassword());
-
             String token = jwtTokenProvider.createToken(user.getUsername(), user.getRole());
 
             Map<Object, Object> model = new HashMap<>();

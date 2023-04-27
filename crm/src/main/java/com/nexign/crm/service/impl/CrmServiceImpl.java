@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nexign.common.model.*;
 import com.nexign.crm.model.*;
+import com.nexign.crm.service.CallUrlService;
 import com.nexign.crm.service.CrmService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -18,7 +19,9 @@ import java.util.stream.Stream;
 @Service
 public class CrmServiceImpl implements CrmService {
 
+    private CallUrlService callUrlService;
     private ObjectMapper objectMapper;
+
     private @Value("${brt.payment.url}") String brtPaymentUrl;
     private @Value("${user.tariff.url}") String userTariffUrl;
     private @Value("${user.info.url}") String userInfoUrl;
@@ -28,13 +31,14 @@ public class CrmServiceImpl implements CrmService {
     private @Value("${brt.billing.url}") String billingUrl;
     private @Value("${user.phones.url}") String userPhonesUrl;
 
-    public CrmServiceImpl(ObjectMapper objectMapper) {
+    public CrmServiceImpl(CallUrlService callUrlService, ObjectMapper objectMapper) {
+        this.callUrlService = callUrlService;
         this.objectMapper = objectMapper;
     }
 
     @Override
     public PaymentResponseModel callBrtPayment(PaymentModel paymentModel) {
-        String resultId = callUrl(paymentModel, brtPaymentUrl, HttpMethod.PUT).getBody();
+        String resultId = callUrlService.callUrl(paymentModel, brtPaymentUrl, HttpMethod.PUT).getBody();
 
         if(resultId == null) {
             return null;
@@ -49,7 +53,7 @@ public class CrmServiceImpl implements CrmService {
 
     @Override
     public ChangeTariffResponseModel changeTariff(ChangeTariffModel changeTariffModel) {
-        String userId = callUrl(changeTariffModel, userTariffUrl, HttpMethod.PUT).getBody();
+        String userId = callUrlService.callUrl(changeTariffModel, userTariffUrl, HttpMethod.PUT).getBody();
 
         if(userId == null) {
             return null;
@@ -94,7 +98,7 @@ public class CrmServiceImpl implements CrmService {
           createCustomerModel.getTariffId()
         );
 
-        String userId = callUrl(createProfileModel, saveUserUrl, HttpMethod.POST).getBody();
+        String userId = callUrlService.callUrl(createProfileModel, saveUserUrl, HttpMethod.POST).getBody();
 
         if(userId == null) {
             return null;
@@ -105,7 +109,7 @@ public class CrmServiceImpl implements CrmService {
           createCustomerModel.getBalance()
         );
 
-        callUrl(createAccountRequestModel, createAccountUrl, HttpMethod.POST);
+        callUrlService.callUrl(createAccountRequestModel, createAccountUrl, HttpMethod.POST);
 
         return new CreateCustomerResponse(
           createCustomerModel.getPhoneNumber(),
@@ -127,7 +131,7 @@ public class CrmServiceImpl implements CrmService {
           .map(UserBalanceModel::getUserId)
           .collect(Collectors.toList());
 
-        String phonesStr = callUrl(idList, userPhonesUrl, HttpMethod.POST).getBody();
+        String phonesStr = callUrlService.callUrl(idList, userPhonesUrl, HttpMethod.POST).getBody();
 
         if(phonesStr == null) {
             return null;
@@ -160,22 +164,5 @@ public class CrmServiceImpl implements CrmService {
         }
 
         return new BillingModel(phoneAndBalanceList);
-    }
-
-    private ResponseEntity<String> callUrl(Object obj, String url, HttpMethod httpMethod) {
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        String requestJson;
-
-        try {
-            requestJson = objectMapper.writeValueAsString(obj);
-        }
-        catch(JsonProcessingException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        HttpEntity<String> entity = new HttpEntity<>(requestJson, headers);
-        return restTemplate.exchange(url, httpMethod, entity, String.class);
     }
 }

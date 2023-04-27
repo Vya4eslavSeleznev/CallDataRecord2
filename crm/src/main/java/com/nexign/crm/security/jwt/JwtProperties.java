@@ -1,4 +1,4 @@
-package com.nexign.user.security.jwt;
+package com.nexign.crm.security.jwt;
 
 import lombok.Getter;
 import lombok.Setter;
