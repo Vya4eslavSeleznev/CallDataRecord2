@@ -72,11 +72,9 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        UserPrincipalModel userPrincipalModel = new UserPrincipalModel(getUserName(token));
-        List<SimpleGrantedAuthority> grantedAuthorities = new ArrayList<>();
-        grantedAuthorities.add(new SimpleGrantedAuthority(getUserRole(token)));
+        UserPrincipalModel userPrincipalModel = new UserPrincipalModel(getUserName(token), List.of(getUserRole(token)));
 
-        return new UsernamePasswordAuthenticationToken(userPrincipalModel, "", grantedAuthorities);
+        return new UsernamePasswordAuthenticationToken(userPrincipalModel, "", userPrincipalModel.getAuthorities());
     }
 
     @PostConstruct

@@ -38,6 +38,8 @@ public class SpringSecurityConfig {
           .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
           .authorizeRequests()
           .antMatchers("/crm/signin").permitAll()
+          .antMatchers("/crm/abonent/**").hasAuthority("USER")
+          .antMatchers("/crm/manager/**").hasAuthority("MANAGER")
           .anyRequest().authenticated().and()
           .apply(new JwtSecurityConfigurer(jwtTokenProvider));
 
