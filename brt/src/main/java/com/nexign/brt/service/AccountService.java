@@ -1,7 +1,7 @@
 package com.nexign.brt.service;
 
-import com.nexign.brt.model.CreateAccountRequestModel;
-import com.nexign.brt.model.UserBalanceModel;
+import com.nexign.common.model.CreateAccountRequestModel;
+import com.nexign.common.model.UserBalanceModel;
 
 import java.util.List;
 

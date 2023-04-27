@@ -1,6 +1,6 @@
 package com.nexign.brt.service;
 
-import com.nexign.brt.model.FindByPhoneModel;
+import com.nexign.common.model.FindByPhoneModel;
 
 public interface UserGateway {
 

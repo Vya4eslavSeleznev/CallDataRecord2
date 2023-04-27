@@ -4,9 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nexign.brt.entity.Account;
 import com.nexign.brt.exception.BalanceLessThanZeroException;
-import com.nexign.brt.model.CallAuthorizedModel;
-import com.nexign.brt.model.CallRecordModel;
-import com.nexign.brt.model.FindByPhoneModel;
+import com.nexign.common.model.CallAuthorizedEvent;
+import com.nexign.common.model.CallRecordModel;
+import com.nexign.common.model.FindByPhoneModel;
 import com.nexign.brt.repository.AccountCallRepository;
 import com.nexign.brt.repository.AccountRepository;
 import com.nexign.brt.service.CallDataRecordEventListener;
@@ -50,7 +50,7 @@ public class CallDataRecordEventListenerImpl implements CallDataRecordEventListe
             Account account = accountRepository.findByUserId(userInfo.getUserId());
 
             if(account.getBalance() <= 0) {
-                throw new BalanceLessThanZeroException("Balance less than zero");
+                throw new BalanceLessThanZeroException();
             }
 
             LocalDate currentDate = LocalDate.now();
@@ -58,7 +58,7 @@ public class CallDataRecordEventListenerImpl implements CallDataRecordEventListe
             Optional<Long> minutesSpentOpt = accountCallRepository.findByAccountIdAndDate(account.getId(),
               currentDate.getMonthValue(), currentDate.getYear());
 
-            CallAuthorizedModel cam = new CallAuthorizedModel(
+            CallAuthorizedEvent cam = new CallAuthorizedEvent(
               event.getCallType(),
               account.getId(),
               userInfo.getTariffId(),

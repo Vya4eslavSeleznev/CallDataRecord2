@@ -1,7 +1,7 @@
 package com.nexign.crm.model;
 
+import com.nexign.common.model.AccountCallResponseModel;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +10,6 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-@Data
 public class ReportModel {
 
     private long id;

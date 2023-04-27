@@ -1,9 +1,8 @@
 package com.nexign.tariff.service;
 
-import com.nexign.tariff.entity.CallType;
+import com.nexign.common.model.CallType;
+import com.nexign.common.model.TariffInfoModel;
 import com.nexign.tariff.exception.TariffNotFoundException;
-import com.nexign.tariff.model.TariffByParametersModel;
-import com.nexign.tariff.model.TariffForHrsModel;
 import com.nexign.tariff.model.TariffModel;
 
 import java.util.List;
@@ -11,5 +10,5 @@ import java.util.List;
 public interface TariffService {
 
     void saveTariff(TariffModel tariffModel);
-    List<TariffForHrsModel> getTariffInfo(long tariffId, CallType callType) throws TariffNotFoundException;
+    List<TariffInfoModel> getTariffInfo(long tariffId, CallType callType) throws TariffNotFoundException;
 }

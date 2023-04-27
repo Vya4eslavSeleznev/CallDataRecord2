@@ -1,7 +1,8 @@
 package com.nexign.cdr.service.impl;
 
-import com.nexign.cdr.model.CallRecordModel;
 import com.nexign.cdr.service.DataService;
+import com.nexign.common.model.CallRecordModel;
+import com.nexign.common.model.CallType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,7 +19,7 @@ public class DataServiceImpl implements DataService {
     @Override
     public List<CallRecordModel> uploadFile(MultipartFile file) throws IOException, ParseException {
         List<CallRecordModel> listOfEvents = new ArrayList<>();
-        String[] content = new String[0];
+        String[] content;
 
         content = new String(file.getBytes()).split("\r\n");
 
@@ -31,7 +32,7 @@ public class DataServiceImpl implements DataService {
 
             listOfEvents.add(
               new CallRecordModel(
-                callRecord[0],
+                CallType.valueOf(callRecord[0]),
                 callRecord[1],
                 stringToDate(callRecord[2]),
                 stringToDate(callRecord[3]))

@@ -2,7 +2,7 @@ package com.nexign.brt.service.impl;
 
 import com.nexign.brt.entity.Account;
 import com.nexign.brt.entity.AccountTransaction;
-import com.nexign.brt.model.FindByPhoneModel;
+import com.nexign.common.model.FindByPhoneModel;
 import com.nexign.brt.repository.AccountRepository;
 import com.nexign.brt.repository.AccountTransactionRepository;
 import com.nexign.brt.service.AccountTransactionService;

@@ -1,7 +1,7 @@
 package com.nexign.hrs.service;
 
-import com.nexign.hrs.model.CallType;
-import com.nexign.hrs.model.TariffInfoModel;
+import com.nexign.common.model.CallType;
+import com.nexign.common.model.TariffInfoModel;
 
 import java.util.List;
 

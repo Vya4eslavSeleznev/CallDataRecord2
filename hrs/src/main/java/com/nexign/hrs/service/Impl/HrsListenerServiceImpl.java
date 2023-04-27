@@ -2,9 +2,9 @@ package com.nexign.hrs.service.Impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nexign.common.model.CallAuthorizedEvent;
 import com.nexign.hrs.exception.AboveTariffRateNotFoundException;
-import com.nexign.hrs.model.CallAuthorizedModel;
-import com.nexign.hrs.model.CallCostCalculatedEvent;
+import com.nexign.common.model.CallCostCalculatedEvent;
 import com.nexign.hrs.service.CalculateService;
 import com.nexign.hrs.service.HrsListenerService;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,7 +32,7 @@ public class HrsListenerServiceImpl implements HrsListenerService {
     @JmsListener(destination = "brt-queue")
     public void processMessage(String callAuthorizedModel) throws AboveTariffRateNotFoundException {
         try {
-            CallAuthorizedModel event = objectMapper.readValue(callAuthorizedModel, CallAuthorizedModel.class);
+            CallAuthorizedEvent event = objectMapper.readValue(callAuthorizedModel, CallAuthorizedEvent.class);
             CallCostCalculatedEvent calculatedEvent = calculateService.calculation(event);
             jmsTemplate.convertAndSend(hrsQueue, objectMapper.writeValueAsString(calculatedEvent));
         }

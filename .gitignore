@@ -45,3 +45,11 @@ crm/.mvn/wrapper/maven-wrapper.properties
 crm/.idea/*
 crm/target/*
 crm/crm.iml
+
+common/mvnw
+common/mvnw.cmd
+common/.mvn/wrapper/maven-wrapper.jar
+common/.mvn/wrapper/maven-wrapper.properties
+common/.idea/*
+common/target/*
+common/common.iml

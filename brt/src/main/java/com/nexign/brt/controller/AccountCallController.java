@@ -2,9 +2,9 @@ package com.nexign.brt.controller;
 
 import com.nexign.brt.exception.AccountNotFoundException;
 import com.nexign.brt.exception.BalanceLessThanZeroException;
-import com.nexign.brt.model.CallCostCalculatedEvent;
-import com.nexign.brt.model.UserCallsModel;
 import com.nexign.brt.service.AccountCallService;
+import com.nexign.common.model.CallCostCalculatedEvent;
+import com.nexign.common.model.UserCallsModel;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

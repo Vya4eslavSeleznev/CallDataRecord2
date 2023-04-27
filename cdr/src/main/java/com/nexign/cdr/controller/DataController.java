@@ -1,8 +1,8 @@
 package com.nexign.cdr.controller;
 
-import com.nexign.cdr.model.CallRecordModel;
 import com.nexign.cdr.service.CallDataRecordEventSender;
 import com.nexign.cdr.service.DataService;
+import com.nexign.common.model.CallRecordModel;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +26,7 @@ public class DataController {
 
     @PostMapping("/file")
     public ResponseEntity<List<CallRecordModel>> uploadFile(@RequestParam("file") MultipartFile file) {
-        List<CallRecordModel> listOfEvents = null;
+        List<CallRecordModel> listOfEvents;
         try {
             listOfEvents = dataService.uploadFile(file);
         }
@@ -35,11 +35,11 @@ public class DataController {
         }
 
         if(listOfEvents == null) {
-           return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-       cdrSender.sendEvents(listOfEvents);
+        cdrSender.sendEvents(listOfEvents);
 
-       return new ResponseEntity<>(listOfEvents, HttpStatus.OK);
+        return new ResponseEntity<>(listOfEvents, HttpStatus.OK);
     }
 }

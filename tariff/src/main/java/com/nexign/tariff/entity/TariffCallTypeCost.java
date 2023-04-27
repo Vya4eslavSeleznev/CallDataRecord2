@@ -1,5 +1,6 @@
 package com.nexign.tariff.entity;
 
+import com.nexign.common.model.TariffType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

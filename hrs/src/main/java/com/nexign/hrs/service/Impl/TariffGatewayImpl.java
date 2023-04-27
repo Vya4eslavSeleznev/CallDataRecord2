@@ -1,7 +1,7 @@
 package com.nexign.hrs.service.Impl;
 
-import com.nexign.hrs.model.CallType;
-import com.nexign.hrs.model.TariffInfoModel;
+import com.nexign.common.model.CallType;
+import com.nexign.common.model.TariffInfoModel;
 import com.nexign.hrs.service.TariffGateway;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;

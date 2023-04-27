@@ -1,5 +1,6 @@
 package com.nexign.brt.entity;
 
+import com.nexign.common.model.CallType;
 import io.hypersistence.utils.hibernate.type.interval.PostgreSQLIntervalType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,7 +36,7 @@ public class AccountCall {
     @JoinColumn(name = "account_id")
     private Account account;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "call_type")
     @Enumerated(EnumType.STRING)
     private CallType callType;
 

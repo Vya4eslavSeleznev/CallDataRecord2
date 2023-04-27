@@ -1,11 +1,11 @@
 package com.nexign.brt.service.impl;
 
 import com.nexign.brt.entity.Account;
-import com.nexign.brt.model.CreateAccountRequestModel;
+import com.nexign.common.model.CreateAccountRequestModel;
 import com.nexign.brt.model.UserBalanceInterface;
-import com.nexign.brt.model.UserBalanceModel;
 import com.nexign.brt.repository.AccountRepository;
 import com.nexign.brt.service.AccountService;
+import com.nexign.common.model.UserBalanceModel;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

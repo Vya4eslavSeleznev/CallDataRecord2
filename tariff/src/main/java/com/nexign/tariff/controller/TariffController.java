@@ -1,9 +1,8 @@
 package com.nexign.tariff.controller;
 
-import com.nexign.tariff.entity.CallType;
+import com.nexign.common.model.CallType;
+import com.nexign.common.model.TariffInfoModel;
 import com.nexign.tariff.exception.TariffNotFoundException;
-import com.nexign.tariff.model.TariffByParametersModel;
-import com.nexign.tariff.model.TariffForHrsModel;
 import com.nexign.tariff.model.TariffModel;
 import com.nexign.tariff.service.TariffService;
 import lombok.AllArgsConstructor;
@@ -26,9 +25,9 @@ public class TariffController {
     }
 
     @GetMapping("/{tariffId}/{callType}")
-    public ResponseEntity<List<TariffForHrsModel>> getTariff(@PathVariable long tariffId, @PathVariable CallType callType) {
+    public ResponseEntity<List<TariffInfoModel>> getTariff(@PathVariable long tariffId, @PathVariable CallType callType) {
         try {
-            List<TariffForHrsModel> modelList = tariffService.getTariffInfo(tariffId, callType);
+            List<TariffInfoModel> modelList = tariffService.getTariffInfo(tariffId, callType);
             return new ResponseEntity<>(modelList, HttpStatus.OK);
         }
         catch(TariffNotFoundException e) {

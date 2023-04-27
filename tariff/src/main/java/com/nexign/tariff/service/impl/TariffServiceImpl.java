@@ -1,13 +1,13 @@
 package com.nexign.tariff.service.impl;
 
-import com.nexign.tariff.entity.CallType;
+import com.nexign.common.model.CallType;
+import com.nexign.common.model.TariffInfoModel;
 import com.nexign.tariff.entity.Tariff;
 import com.nexign.tariff.entity.TariffCallType;
 import com.nexign.tariff.entity.TariffCallTypeCost;
 import com.nexign.tariff.exception.TariffNotFoundException;
 import com.nexign.tariff.model.TariffCallTypeModel;
 import com.nexign.tariff.model.TariffCostModel;
-import com.nexign.tariff.model.TariffForHrsModel;
 import com.nexign.tariff.model.TariffModel;
 import com.nexign.tariff.repository.TariffCallTypeCostRepository;
 import com.nexign.tariff.repository.TariffCallTypeRepository;
@@ -50,20 +50,20 @@ public class TariffServiceImpl implements TariffService {
     }
 
     @Override
-    public List<TariffForHrsModel> getTariffInfo(long tariffId, CallType callType) throws TariffNotFoundException {
+    public List<TariffInfoModel> getTariffInfo(long tariffId, CallType callType) throws TariffNotFoundException {
         TariffCallType tariffCallType = callTypeRepository.findByTariffIdAndCallType(tariffId, callType);
 
         if(tariffCallType == null) {
-            throw new TariffNotFoundException("Tariff not found");
+            throw new TariffNotFoundException();
         }
 
         List<TariffCallTypeCost> tariffCallTypeCosts = callTypeCostRepository.findByTariffCallTypeId(tariffCallType.getId());
 
-        List<TariffForHrsModel> modelList = new ArrayList<>();
+        List<TariffInfoModel> modelList = new ArrayList<>();
 
         for(TariffCallTypeCost tariffCallTypeCost : tariffCallTypeCosts) {
             modelList.add(
-              new TariffForHrsModel(
+              new TariffInfoModel(
                 tariffCallTypeCost.getTarifficationInterval(),
                 tariffCallTypeCost.getPrice(),
                 tariffCallTypeCost.getCurrencyId(),
@@ -73,9 +73,5 @@ public class TariffServiceImpl implements TariffService {
         }
 
         return modelList;
-    }
-
-    public void getCurrencyByTariffId() {
-
     }
 }
