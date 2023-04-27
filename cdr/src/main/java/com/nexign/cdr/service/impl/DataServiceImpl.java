@@ -19,7 +19,7 @@ public class DataServiceImpl implements DataService {
     @Override
     public List<CallRecordModel> uploadFile(MultipartFile file) throws IOException, ParseException {
         List<CallRecordModel> listOfEvents = new ArrayList<>();
-        String[] content = new String[0];
+        String[] content;
 
         content = new String(file.getBytes()).split("\r\n");
 

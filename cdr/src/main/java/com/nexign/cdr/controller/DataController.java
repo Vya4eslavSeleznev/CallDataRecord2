@@ -35,11 +35,11 @@ public class DataController {
         }
 
         if(listOfEvents == null) {
-           return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-       cdrSender.sendEvents(listOfEvents);
+        cdrSender.sendEvents(listOfEvents);
 
-       return new ResponseEntity<>(listOfEvents, HttpStatus.OK);
+        return new ResponseEntity<>(listOfEvents, HttpStatus.OK);
     }
 }
