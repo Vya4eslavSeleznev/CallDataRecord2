@@ -120,7 +120,7 @@ public class CustomerServiceTest {
     }
 
     @Test
-    public void change_tariff_test() {
+    public void change_tariff_customer_id_returned() {
         ChangeTariffModel ctm = new ChangeTariffModel(
           phone, tariffId
         );
