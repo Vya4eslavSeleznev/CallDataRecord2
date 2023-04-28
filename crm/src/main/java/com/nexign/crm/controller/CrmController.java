@@ -48,5 +48,4 @@ public class CrmController {
     public ResponseEntity<ChangeTariffResponseModel> changeTariff(@RequestBody ChangeTariffModel changeTariffModel) {
         return new ResponseEntity<>(crmService.changeTariff(changeTariffModel), HttpStatus.OK);
     }
-
 }

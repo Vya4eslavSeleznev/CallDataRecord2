@@ -1,22 +1,18 @@
 package com.nexign.crm.security.jwt;
 
 import com.nexign.common.exception.InvalidJwtAuthenticationException;
-import com.nexign.common.model.Role;
 import com.nexign.crm.model.UserPrincipalModel;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
@@ -24,12 +20,7 @@ import java.util.List;
 @Component
 public class JwtTokenProvider {
 
-    private JwtProperties jwtProperties;
-    private String secretKey;
-
-    public JwtTokenProvider(JwtProperties jwtProperties) {
-        this.jwtProperties = jwtProperties;
-    }
+    private @Value("${secretKey}") String secretKey;
 
     private String getUserName(String token) {
         return Jwts
@@ -79,6 +70,6 @@ public class JwtTokenProvider {
 
     @PostConstruct
     private void init() {
-        secretKey = Base64.getEncoder().encodeToString(jwtProperties.getSecretKey().getBytes());
+        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 }
