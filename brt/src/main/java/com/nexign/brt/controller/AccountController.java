@@ -1,9 +1,9 @@
 package com.nexign.brt.controller;
 
-import com.nexign.brt.model.BalanceUpdateByPhone;
 import com.nexign.common.model.CreateAccountRequestModel;
 import com.nexign.brt.service.AccountService;
 import com.nexign.brt.service.AccountTransactionService;
+import com.nexign.common.model.PhoneAndBalanceModel;
 import com.nexign.common.model.UserBalanceModel;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,8 +21,8 @@ public class AccountController {
     private AccountService accountService;
 
     @PostMapping("/balance")
-    public void updateBalanceByPhone(@RequestBody BalanceUpdateByPhone balanceUpdateByPhone) {
-        accountTransactionService.addTransaction(balanceUpdateByPhone.getPhoneNumber(), balanceUpdateByPhone.getAmount());
+    public void updateBalanceByPhone(@RequestBody PhoneAndBalanceModel phoneAndBalanceModel) {
+        accountTransactionService.addTransaction(phoneAndBalanceModel.getPhoneNumber(), phoneAndBalanceModel.getBalance());
     }
 
     @PostMapping
