@@ -1,17 +1,18 @@
 package com.nexign.common.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
-public class CreateProfileModel {
+public class CreateProfileModel extends UserCredentialModel {
 
     private String phoneNumber;
-    private String password;
-    private String username;
-    private Role role;
     private long tariffId;
+
+    public CreateProfileModel(String phoneNumber, String password, String username, Role role, long tariffId) {
+        super(password, username, role);
+        this.phoneNumber = phoneNumber;
+        this.tariffId = tariffId;
+    }
 }

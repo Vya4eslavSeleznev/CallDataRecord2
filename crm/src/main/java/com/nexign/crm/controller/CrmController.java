@@ -3,6 +3,7 @@ package com.nexign.crm.controller;
 import com.nexign.common.model.AuthRequestModel;
 import com.nexign.common.model.ChangeTariffModel;
 import com.nexign.common.model.PaymentModel;
+import com.nexign.common.model.UserCredentialModel;
 import com.nexign.crm.model.*;
 import com.nexign.crm.service.CrmService;
 import com.nexign.crm.service.SignInService;
@@ -47,5 +48,11 @@ public class CrmController {
     @PatchMapping("manager/changeTariff")
     public ResponseEntity<ChangeTariffResponseModel> changeTariff(@RequestBody ChangeTariffModel changeTariffModel) {
         return new ResponseEntity<>(crmService.changeTariff(changeTariffModel), HttpStatus.OK);
+    }
+
+    @PostMapping("/manager/profile")
+    public ResponseEntity<?> createManager(@RequestBody UserCredentialModel userCredentialModel) {
+        crmService.createManager(userCredentialModel);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

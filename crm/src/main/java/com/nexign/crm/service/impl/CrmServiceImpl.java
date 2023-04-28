@@ -30,6 +30,7 @@ public class CrmServiceImpl implements CrmService {
     private @Value("${brt.account.url}") String createAccountUrl;
     private @Value("${brt.billing.url}") String billingUrl;
     private @Value("${user.phones.url}") String userPhonesUrl;
+    private @Value("${manager.save.url}") String saveManagerUrl;
 
     public CrmServiceImpl(CallUrlService callUrlService, ObjectMapper objectMapper) {
         this.callUrlService = callUrlService;
@@ -164,5 +165,10 @@ public class CrmServiceImpl implements CrmService {
         }
 
         return new BillingModel(phoneAndBalanceList);
+    }
+
+    @Override
+    public void createManager(UserCredentialModel userCredentialModel) {
+        callUrlService.callUrl(userCredentialModel, saveManagerUrl, HttpMethod.POST);
     }
 }
