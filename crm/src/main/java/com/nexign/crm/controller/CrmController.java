@@ -1,5 +1,6 @@
 package com.nexign.crm.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nexign.common.model.AuthRequestModel;
 import com.nexign.common.model.ChangeTariffModel;
 import com.nexign.common.model.PaymentModel;
@@ -21,8 +22,14 @@ public class CrmController {
     private SignInService signInService;
 
     @PostMapping("/signin")
-    public ResponseEntity<String> signIn(@RequestBody AuthRequestModel authRequestModel) {
-        return new ResponseEntity<>(signInService.signIn(authRequestModel), HttpStatus.OK);
+    public ResponseEntity<TokenResponseModel> signIn(@RequestBody AuthRequestModel authRequestModel) {
+        try {
+            return new ResponseEntity<>(signInService.signIn(authRequestModel), HttpStatus.OK);
+        }
+        catch(JsonProcessingException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PatchMapping("/abonent/pay/")
