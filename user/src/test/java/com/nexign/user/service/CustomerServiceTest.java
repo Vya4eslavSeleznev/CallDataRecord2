@@ -56,7 +56,7 @@ public class CustomerServiceTest {
     }
 
     @Test
-    public void find_by_phone_number_with_not_null_customer_customer_returned() throws CustomerNotFoundException {
+    public void should_find_by_phone_number_with_not_null_customer_customer_returned() throws CustomerNotFoundException {
         FindByPhoneModel expectedModel = new FindByPhoneModel(
           expectedCustomer.getUserCredential().getId(),
           expectedCustomer.getTariffId()
@@ -72,13 +72,13 @@ public class CustomerServiceTest {
     }
 
     @Test
-    public void find_by_phone_number_with_null_customer_exception() {
+    public void should_find_by_phone_number_with_null_customer_exception() {
         doReturn(null).when(customerRepository).findByPhoneNumber(phone);
         assertThrows(CustomerNotFoundException.class, () -> customerService.findByPhoneNumber(phone));
     }
 
     @Test
-    public void save_customer_user_id_returned() {
+    public void should_save_customer_user_id_returned() {
         long expectedUserId = expectedCustomer.getUserCredential().getId();
 
         CreateProfileModel cpm = new CreateProfileModel(
@@ -99,7 +99,7 @@ public class CustomerServiceTest {
     }
 
     @Test
-    public void get_user_phones_list_returned() {
+    public void should_get_user_phones_list_returned() {
         List<Long> idList = List.of(1L, 2L, 3L, 4L, 5L);
         List<Customer> expectedCustomers = List.of(expectedCustomer);
 
@@ -120,7 +120,7 @@ public class CustomerServiceTest {
     }
 
     @Test
-    public void change_tariff_customer_id_returned() {
+    public void should_change_tariff_customer_id_returned() {
         ChangeTariffModel ctm = new ChangeTariffModel(
           phone, tariffId
         );

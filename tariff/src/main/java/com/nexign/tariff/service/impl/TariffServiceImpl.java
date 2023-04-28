@@ -11,7 +11,6 @@ import com.nexign.tariff.model.TariffCostModel;
 import com.nexign.tariff.model.TariffModel;
 import com.nexign.tariff.repository.TariffCallTypeCostRepository;
 import com.nexign.tariff.repository.TariffCallTypeRepository;
-import com.nexign.tariff.repository.TariffRepository;
 import com.nexign.tariff.service.TariffService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,6 @@ import java.util.List;
 @AllArgsConstructor
 public class TariffServiceImpl implements TariffService {
 
-    private TariffRepository tariffRepository;
     private TariffCallTypeRepository callTypeRepository;
     private TariffCallTypeCostRepository callTypeCostRepository;
 
