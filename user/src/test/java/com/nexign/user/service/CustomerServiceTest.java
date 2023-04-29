@@ -62,7 +62,7 @@ public class CustomerServiceTest {
           expectedCustomer.getTariffId()
         );
 
-        doReturn(expectedCustomer).when(customerRepository).findByPhoneNumber(phone);
+        when(customerRepository.findByPhoneNumber(phone)).thenReturn(expectedCustomer);
 
         FindByPhoneModel actualModel = customerService.findByPhoneNumber(phone);
 
@@ -73,7 +73,7 @@ public class CustomerServiceTest {
 
     @Test
     public void should_find_by_phone_number_with_null_customer_exception() {
-        doReturn(null).when(customerRepository).findByPhoneNumber(phone);
+        when(customerRepository.findByPhoneNumber(phone)).thenReturn(null);
         assertThrows(CustomerNotFoundException.class, () -> customerService.findByPhoneNumber(phone));
     }
 
@@ -89,7 +89,7 @@ public class CustomerServiceTest {
           expectedCustomer.getTariffId()
         );
 
-        doReturn(expectedCustomer).when(customerRepository).save(any(Customer.class));
+        when(customerRepository.save(any(Customer.class))).thenReturn(expectedCustomer);
 
         long actualUserId = customerService.saveCustomer(cpm);
 
@@ -103,7 +103,7 @@ public class CustomerServiceTest {
         List<Long> idList = List.of(1L, 2L, 3L, 4L, 5L);
         List<Customer> expectedCustomers = List.of(expectedCustomer);
 
-        doReturn(expectedCustomers).when(customerRepository).findByUserIds(idList);
+        when(customerRepository.findByUserIds(idList)).thenReturn(expectedCustomers);
 
         List<UserPhoneNumberModel> expectedList =
           expectedCustomers
@@ -127,8 +127,8 @@ public class CustomerServiceTest {
 
         long expectedCustomerId = 0L;
 
-        doReturn(expectedCustomer).when(customerRepository).findByPhoneNumber(ctm.getPhoneNumber());
-        doReturn(expectedCustomer).when(customerRepository).save(any(Customer.class));
+        when(customerRepository.findByPhoneNumber(ctm.getPhoneNumber())).thenReturn(expectedCustomer);
+        when(customerRepository.save(any(Customer.class))).thenReturn(expectedCustomer);
 
         long actualCustomerId = customerService.changeTariff(ctm);
 
