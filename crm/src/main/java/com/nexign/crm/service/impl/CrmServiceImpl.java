@@ -11,6 +11,7 @@ import com.nexign.crm.service.CrmService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ public class CrmServiceImpl implements CrmService {
     private @Value("${brt.account.url}") String createAccountUrl;
     private @Value("${user.phones.url}") String userPhonesUrl;
     private @Value("${manager.save.url}") String saveManagerUrl;
+    private @Value("${manager.tariffication.url}") String managerTarifficationUrl;
 
     public CrmServiceImpl(CallUrlService callUrlService, CrmGateway crmGateway, ObjectMapper objectMapper) {
         this.callUrlService = callUrlService;

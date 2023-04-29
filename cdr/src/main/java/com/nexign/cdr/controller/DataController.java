@@ -28,7 +28,7 @@ public class DataController {
     public ResponseEntity<List<CallRecordModel>> uploadFile(@RequestParam("file") MultipartFile file) {
         List<CallRecordModel> listOfEvents;
         try {
-            listOfEvents = dataService.uploadFile(file);
+            listOfEvents = dataService.uploadFileViaParameters(file);
         }
         catch(IOException | ParseException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

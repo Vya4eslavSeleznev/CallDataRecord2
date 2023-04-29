@@ -9,5 +9,6 @@ import java.util.List;
 
 public interface DataService {
 
-    List<CallRecordModel> uploadFile(MultipartFile file) throws IOException, ParseException;
+    List<CallRecordModel> uploadFileViaParameters(MultipartFile file) throws IOException, ParseException;
+    List<CallRecordModel> uploadFileInit(String content) throws ParseException;
 }

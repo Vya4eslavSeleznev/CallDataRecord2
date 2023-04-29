@@ -67,6 +67,7 @@ public class CustomerServiceTest {
         FindByPhoneModel actualModel = customerService.findByPhoneNumber(phone);
 
         verify(customerRepository, times(1)).findByPhoneNumber(phone);
+
         assertEquals(expectedModel.getTariffId(), actualModel.getTariffId());
         assertEquals(expectedModel.getUserId(), actualModel.getUserId());
     }

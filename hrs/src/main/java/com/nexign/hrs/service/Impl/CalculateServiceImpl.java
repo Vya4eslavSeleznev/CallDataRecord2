@@ -61,10 +61,6 @@ public class CalculateServiceImpl implements CalculateService {
         calculatedEvent.setDuration(Duration.ofMillis(endDate.getTime() - startDate.getTime()));
 
         long tarifficationIntervalSeconds = TimeUnit.MINUTES.toSeconds(tariffInfo.getInterval());
-        double tariffSecondsCost = tariffInfo.getCost() / (double) 60;
-
-        //long callSeconds = Duration.of(endDate.getTime() - startDate.getTime(), ChronoUnit.SECONDS).toSeconds();
-        //double totalCost = (tariffSecondsCost * callSeconds) / tarifficationIntervalSeconds;
         long callSeconds = Duration.ofMillis(endDate.getTime() - startDate.getTime()).toSeconds();
         double totalCost = (tariffInfo.getCost() * callSeconds) / tarifficationIntervalSeconds;
 

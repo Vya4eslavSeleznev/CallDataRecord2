@@ -4,6 +4,7 @@ import com.nexign.common.model.ChangeTariffModel;
 import com.nexign.common.model.PaymentModel;
 import com.nexign.common.model.UserCredentialModel;
 import com.nexign.crm.model.*;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface CrmService {
 
