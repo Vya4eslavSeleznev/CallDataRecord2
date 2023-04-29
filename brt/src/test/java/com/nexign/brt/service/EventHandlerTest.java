@@ -9,7 +9,6 @@ import com.nexign.common.model.CallAuthorizedEvent;
 import com.nexign.common.model.CallRecordModel;
 import com.nexign.common.model.CallType;
 import com.nexign.common.model.FindByPhoneModel;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,8 +21,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 
-import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class EventHandlerTest {
@@ -40,13 +40,18 @@ public class EventHandlerTest {
     @Mock
     private AccountCallRepository accountCallRepository;
 
+    private Date startDate;
+    private Date endDate;
+    private CallRecordModel event;
+    private FindByPhoneModel userInfo;
+    private long tariffId;
+    private CallType callType;
+    private Account account;
+
     @BeforeEach
     public void init() {
         eventHandler = new EventHandlerImpl(userGateway, accountRepository, accountCallRepository);
-    }
 
-    @Test
-    public void cdr_handle() throws BalanceLessThanZeroException {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, 2023);
         cal.set(Calendar.MONTH, Calendar.JANUARY);
@@ -55,7 +60,7 @@ public class EventHandlerTest {
         cal.set(Calendar.MINUTE, 10);
         cal.set(Calendar.SECOND, 10);
 
-        Date startDate = cal.getTime();
+        startDate = cal.getTime();
 
         cal.set(Calendar.YEAR, 2023);
         cal.set(Calendar.MONTH, Calendar.JANUARY);
@@ -64,16 +69,20 @@ public class EventHandlerTest {
         cal.set(Calendar.MINUTE, 12);
         cal.set(Calendar.SECOND, 10);
 
-        Date endDate = cal.getTime();
-
+        endDate = cal.getTime();
+        callType = CallType.INPUT;
         long userId = 7L;
-        long spentMinutes = 777;
-        CallType callType = CallType.INPUT;
-        long tariffId = 7L;
+        tariffId = 7L;
 
-        CallRecordModel event = new CallRecordModel(callType, "89997776655", startDate, endDate);
-        FindByPhoneModel userInfo = new FindByPhoneModel(userId, tariffId);
-        Account account = new Account(userId, 100L);
+        userInfo = new FindByPhoneModel(userId, tariffId);
+        event = new CallRecordModel(callType, "89997776655", startDate, endDate);
+        account = new Account(userId, 100L);
+    }
+
+    @Test
+    public void should_handle_cdr_returned_call_authorized_event() throws BalanceLessThanZeroException {
+        long spentMinutes = 777;
+
         account.setId(10L);
         LocalDate currentDate = LocalDate.now();
 
@@ -100,5 +109,13 @@ public class EventHandlerTest {
         assertEquals(expectedCallAuthorizedEvent.getEndDate(), actualCallAuthorizedEvent.getEndDate());
         assertEquals(expectedCallAuthorizedEvent.getStartDate(), actualCallAuthorizedEvent.getStartDate());
 
+    }
+
+    @Test
+    public void should_handle_cdr_returned_exception() {
+        when(userGateway.getUserInfo(event.getPhoneNumber())).thenReturn(userInfo);
+        when(accountRepository.findByUserId(userInfo.getUserId())).thenReturn(account);
+        account.setBalance(-100L);
+        assertThrows(BalanceLessThanZeroException.class, () -> eventHandler.cdrHandle(event));
     }
 }
