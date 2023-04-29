@@ -35,7 +35,7 @@ public class CalculateServiceImpl implements CalculateService {
         } else if(tariffAboveInfoOpt.isPresent() && event.getMinutesSpent() >= tariffAboveInfoOpt.get().getInterval()) {
             return calculationInternal(event, tariffAboveInfoOpt.get());
         } else {
-            throw new AboveTariffRateNotFoundException("Tariff above rate not found");
+            throw new AboveTariffRateNotFoundException();
         }
     }
 
@@ -63,8 +63,10 @@ public class CalculateServiceImpl implements CalculateService {
         long tarifficationIntervalSeconds = TimeUnit.MINUTES.toSeconds(tariffInfo.getInterval());
         double tariffSecondsCost = tariffInfo.getCost() / (double) 60;
 
-        long callSeconds = Duration.of(endDate.getTime() - startDate.getTime(), ChronoUnit.SECONDS).toSeconds();
-        double totalCost = (tariffSecondsCost * callSeconds) / tarifficationIntervalSeconds;
+        //long callSeconds = Duration.of(endDate.getTime() - startDate.getTime(), ChronoUnit.SECONDS).toSeconds();
+        //double totalCost = (tariffSecondsCost * callSeconds) / tarifficationIntervalSeconds;
+        long callSeconds = Duration.ofMillis(endDate.getTime() - startDate.getTime()).toSeconds();
+        double totalCost = (tariffInfo.getCost() * callSeconds) / tarifficationIntervalSeconds;
 
         calculatedEvent.setCost(totalCost);
 
