@@ -12,6 +12,7 @@ import com.nexign.tariff.model.TariffCostModel;
 import com.nexign.tariff.model.TariffModel;
 import com.nexign.tariff.repository.TariffCallTypeCostRepository;
 import com.nexign.tariff.repository.TariffCallTypeRepository;
+import com.nexign.tariff.repository.TariffRepository;
 import com.nexign.tariff.service.impl.TariffServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,6 +39,9 @@ public class TariffServiceTest {
     @Mock
     private TariffCallTypeCostRepository callTypeCostRepository;
 
+    @Mock
+    private TariffRepository tariffRepository;
+
     private long tariffId;
     private CallType callType;
     private Tariff tariff;
@@ -55,7 +59,7 @@ public class TariffServiceTest {
         currencyId = 10;
         callType = CallType.INPUT;
         tariffType = TariffType.POSTPAID;
-        tariffService = new TariffServiceImpl(callTypeRepository, callTypeCostRepository);
+        tariffService = new TariffServiceImpl(callTypeRepository, callTypeCostRepository, tariffRepository);
         tariff = new Tariff("Test");
         tariffCallTypeCost = new TariffCallTypeCost(
           new TariffCallType(tariff, callType), interval, price, currencyId, tariffType);

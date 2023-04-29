@@ -11,6 +11,7 @@ import com.nexign.tariff.model.TariffCostModel;
 import com.nexign.tariff.model.TariffModel;
 import com.nexign.tariff.repository.TariffCallTypeCostRepository;
 import com.nexign.tariff.repository.TariffCallTypeRepository;
+import com.nexign.tariff.repository.TariffRepository;
 import com.nexign.tariff.service.TariffService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class TariffServiceImpl implements TariffService {
 
     private TariffCallTypeRepository callTypeRepository;
     private TariffCallTypeCostRepository callTypeCostRepository;
+    private TariffRepository tariffRepository;
 
     @Override
     public void saveTariff(TariffModel tariffModel) {
@@ -71,5 +73,10 @@ public class TariffServiceImpl implements TariffService {
         }
 
         return modelList;
+    }
+
+    @Override
+    public String getCurrencyByTariffId(long tariffId) {
+        return tariffRepository.findCurrencyByTariffId(tariffId);
     }
 }

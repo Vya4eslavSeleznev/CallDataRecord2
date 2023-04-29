@@ -15,6 +15,7 @@ public class CrmGatewayImpl implements CrmGateway {
     private @Value("${user.info.url}") String userInfoUrl;
     private @Value("${brt.calls.url}") String brtCallsUrl;
     private @Value("${brt.billing.url}") String billingUrl;
+    private @Value("${tariff.currency.url}") String tariffCurrencyUrl;
 
     @Bean
     public RestTemplate restTemplate() {
@@ -34,5 +35,10 @@ public class CrmGatewayImpl implements CrmGateway {
     @Override
     public UserBalanceModel[] getUserBalances() {
         return restTemplate().getForObject(billingUrl, UserBalanceModel[].class);
+    }
+
+    @Override
+    public String getCurrencyNameByTariffId(long tariffId) {
+        return restTemplate().getForObject(tariffCurrencyUrl + tariffId, String.class);
     }
 }

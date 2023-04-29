@@ -9,4 +9,5 @@ public interface CrmGateway {
     FindByPhoneModel findByPhone(String phoneNumber);
     UserCallsModel getUserCalls(FindByPhoneModel findByPhoneModel);
     UserBalanceModel[] getUserBalances();
+    String getCurrencyNameByTariffId(long tariffId);
 }

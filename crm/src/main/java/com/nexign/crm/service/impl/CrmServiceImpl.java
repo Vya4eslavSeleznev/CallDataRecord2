@@ -32,7 +32,6 @@ public class CrmServiceImpl implements CrmService {
     private @Value("${brt.account.url}") String createAccountUrl;
     private @Value("${user.phones.url}") String userPhonesUrl;
     private @Value("${manager.save.url}") String saveManagerUrl;
-    private @Value("${manager.tariffication.url}") String managerTarifficationUrl;
 
     public CrmServiceImpl(CallUrlService callUrlService, CrmGateway crmGateway, ObjectMapper objectMapper) {
         this.callUrlService = callUrlService;
@@ -79,6 +78,7 @@ public class CrmServiceImpl implements CrmService {
         }
 
         UserCallsModel userCallsModel = crmGateway.getUserCalls(findByPhoneModel);
+        String currencyName = crmGateway.getCurrencyNameByTariffId(findByPhoneModel.getTariffId());
 
          return new ReportModel(
           findByPhoneModel.getUserId(),
@@ -86,7 +86,7 @@ public class CrmServiceImpl implements CrmService {
           findByPhoneModel.getTariffId(),
           userCallsModel.getAccountCallList(),
           userCallsModel.getTotalAmount(),
-          null
+           currencyName
         );
     }
 

@@ -34,4 +34,9 @@ public class TariffController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/currency/{tariffId}")
+    public ResponseEntity<String> getCurrencyByTariffId(@PathVariable long tariffId) {
+        return new ResponseEntity<>(tariffService.getCurrencyByTariffId(tariffId), HttpStatus.OK);
+    }
 }
