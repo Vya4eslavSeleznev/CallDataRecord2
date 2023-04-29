@@ -48,7 +48,9 @@ public class AccountCallServiceImpl implements AccountCallService {
         Duration duration = Duration.ofMillis(endDate.getTime() - startDate.getTime());
 
         accountCallRepository.save(
-          new AccountCall(account, costCalculatedEvent.getCallType(), startDate, endDate, duration, costCalculatedEvent.getCost())
+          new AccountCall(
+            account, costCalculatedEvent.getCallType(), startDate, endDate, duration, costCalculatedEvent.getCost()
+          )
         );
 
         double newBalance = account.getBalance() - costCalculatedEvent.getCost();
