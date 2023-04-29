@@ -105,7 +105,7 @@ public class TariffServiceTest {
         );
 
         when(callTypeCostRepository.save(any(TariffCallTypeCost.class))).thenReturn(tariffCallTypeCost);
-        
+
         tariffService.saveTariff(new TariffModel("test", tariffCallTypeModels));
         verify(callTypeCostRepository, times(1)).save(any(TariffCallTypeCost.class));
     }
