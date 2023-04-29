@@ -36,7 +36,7 @@ public class ManagerServiceTest {
         UserCredentialModel model = new UserCredentialModel(password, username, Role.MANAGER);
         UserCredential expectedUser = new UserCredential(Role.MANAGER, password, username);
 
-        doReturn(expectedUser).when(userRepository).save(any(UserCredential.class));
+        when(userRepository.save(any(UserCredential.class))).thenReturn(expectedUser);
 
         managerService.saveManager(model);
 
