@@ -63,7 +63,7 @@ public class TariffServiceTest {
 
     @Test
     public void should_get_tariff_info_with_null_result_from_repository_exception() {
-        doReturn(null).when(callTypeRepository).findByTariffIdAndCallType(tariffId, callType);
+        when(callTypeRepository.findByTariffIdAndCallType(tariffId, callType)).thenReturn(null);
         assertThrows(TariffNotFoundException.class, () -> tariffService.getTariffInfo(tariffId, callType));
     }
 
@@ -73,9 +73,9 @@ public class TariffServiceTest {
 
         List<TariffCallTypeCost> expectedTariffCallTypeCosts = List.of(tariffCallTypeCost);
 
-        doReturn(expectedTariffCallType).when(callTypeRepository).findByTariffIdAndCallType(tariffId, callType);
-        doReturn(expectedTariffCallTypeCosts).when(callTypeCostRepository)
-          .findByTariffCallTypeId(expectedTariffCallType.getId());
+        when(callTypeRepository.findByTariffIdAndCallType(tariffId, callType)).thenReturn(expectedTariffCallType);
+        when(callTypeCostRepository.findByTariffCallTypeId(expectedTariffCallType.getId()))
+          .thenReturn(expectedTariffCallTypeCosts);
 
         List<TariffInfoModel> expectedModelList = List.of(
           new TariffInfoModel(interval, price, currencyId, TariffType.POSTPAID, callType)
@@ -104,7 +104,8 @@ public class TariffServiceTest {
           new TariffCallTypeModel(callType, tariffCostModels)
         );
 
-        doReturn(tariffCallTypeCost).when(callTypeCostRepository).save(any(TariffCallTypeCost.class));
+        when(callTypeCostRepository.save(any(TariffCallTypeCost.class))).thenReturn(tariffCallTypeCost);
+        
         tariffService.saveTariff(new TariffModel("test", tariffCallTypeModels));
         verify(callTypeCostRepository, times(1)).save(any(TariffCallTypeCost.class));
     }
