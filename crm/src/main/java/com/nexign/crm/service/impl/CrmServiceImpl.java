@@ -6,13 +6,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nexign.common.model.*;
 import com.nexign.crm.model.*;
 import com.nexign.crm.service.CallUrlService;
+import com.nexign.crm.service.CrmGateway;
 import com.nexign.crm.service.CrmService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,19 +23,19 @@ import java.util.stream.Stream;
 public class CrmServiceImpl implements CrmService {
 
     private CallUrlService callUrlService;
+    private CrmGateway crmGateway;
     private ObjectMapper objectMapper;
 
     private @Value("${brt.payment.url}") String brtPaymentUrl;
     private @Value("${user.tariff.url}") String userTariffUrl;
-    private @Value("${user.info.url}") String userInfoUrl;
-    private @Value("${brt.calls.url}") String brtCallsUrl;
     private @Value("${user.save.url}") String saveUserUrl;
     private @Value("${brt.account.url}") String createAccountUrl;
-    private @Value("${brt.billing.url}") String billingUrl;
     private @Value("${user.phones.url}") String userPhonesUrl;
+    private @Value("${manager.save.url}") String saveManagerUrl;
 
-    public CrmServiceImpl(CallUrlService callUrlService, ObjectMapper objectMapper) {
+    public CrmServiceImpl(CallUrlService callUrlService, CrmGateway crmGateway, ObjectMapper objectMapper) {
         this.callUrlService = callUrlService;
+        this.crmGateway = crmGateway;
         this.objectMapper = objectMapper;
     }
 
@@ -68,14 +71,14 @@ public class CrmServiceImpl implements CrmService {
 
     @Override
     public ReportModel generateReport(String phoneNumber) {
-        RestTemplate restTemplate = new RestTemplate();
-        FindByPhoneModel findByPhoneModel = restTemplate.getForObject(userInfoUrl + phoneNumber, FindByPhoneModel.class);
+        FindByPhoneModel findByPhoneModel = crmGateway.findByPhone(phoneNumber);
 
         if(findByPhoneModel == null) {
             return null;
         }
 
-        UserCallsModel userCallsModel = restTemplate.getForObject(brtCallsUrl + findByPhoneModel.getUserId(), UserCallsModel.class);
+        UserCallsModel userCallsModel = crmGateway.getUserCalls(findByPhoneModel);
+        String currencyName = crmGateway.getCurrencyNameByTariffId(findByPhoneModel.getTariffId());
 
          return new ReportModel(
           findByPhoneModel.getUserId(),
@@ -83,7 +86,7 @@ public class CrmServiceImpl implements CrmService {
           findByPhoneModel.getTariffId(),
           userCallsModel.getAccountCallList(),
           userCallsModel.getTotalAmount(),
-          null
+           currencyName
         );
     }
 
@@ -120,8 +123,7 @@ public class CrmServiceImpl implements CrmService {
 
     @Override
     public BillingModel runBilling() {
-        RestTemplate restTemplate = new RestTemplate();
-        UserBalanceModel[] userBalanceModels = restTemplate.getForObject(billingUrl, UserBalanceModel[].class);
+        UserBalanceModel[] userBalanceModels = crmGateway.getUserBalances();
 
         if(userBalanceModels == null) {
             return null;
@@ -164,5 +166,10 @@ public class CrmServiceImpl implements CrmService {
         }
 
         return new BillingModel(phoneAndBalanceList);
+    }
+
+    @Override
+    public void createManager(UserCredentialModel userCredentialModel) {
+        callUrlService.callUrl(userCredentialModel, saveManagerUrl, HttpMethod.POST);
     }
 }

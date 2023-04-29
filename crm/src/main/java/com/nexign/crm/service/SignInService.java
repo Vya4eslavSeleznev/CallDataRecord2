@@ -1,8 +1,10 @@
 package com.nexign.crm.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nexign.common.model.AuthRequestModel;
+import com.nexign.crm.model.TokenResponseModel;
 
 public interface SignInService {
 
-    String signIn(AuthRequestModel authRequestModel);
+    TokenResponseModel signIn(AuthRequestModel authRequestModel) throws JsonProcessingException;
 }

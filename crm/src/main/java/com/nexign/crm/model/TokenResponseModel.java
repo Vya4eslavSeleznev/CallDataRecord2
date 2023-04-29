@@ -2,13 +2,14 @@ package com.nexign.crm.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
-public class PhoneAndBalanceModel {
+@NoArgsConstructor
+public class TokenResponseModel {
 
-    private String phoneNumber;
-    private double balance;
+    private String token;
 }

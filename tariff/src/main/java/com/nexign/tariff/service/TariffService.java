@@ -11,4 +11,5 @@ public interface TariffService {
 
     void saveTariff(TariffModel tariffModel);
     List<TariffInfoModel> getTariffInfo(long tariffId, CallType callType) throws TariffNotFoundException;
+    String getCurrencyByTariffId(long tariffId);
 }

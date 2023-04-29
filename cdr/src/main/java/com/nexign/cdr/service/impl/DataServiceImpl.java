@@ -1,8 +1,10 @@
 package com.nexign.cdr.service.impl;
 
 import com.nexign.cdr.service.DataService;
+import com.nexign.cdr.service.FileContentProvider;
 import com.nexign.common.model.CallRecordModel;
 import com.nexign.common.model.CallType;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,14 +16,25 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class DataServiceImpl implements DataService {
 
-    @Override
-    public List<CallRecordModel> uploadFile(MultipartFile file) throws IOException, ParseException {
-        List<CallRecordModel> listOfEvents = new ArrayList<>();
-        String[] content;
+    private FileContentProvider fileContentProvider;
 
-        content = new String(file.getBytes()).split("\r\n");
+    @Override
+    public List<CallRecordModel> uploadFileInit(String content) throws ParseException {
+        String[] contentArr = fileContentProvider.contentGeneratorForInit(content);
+        return parseLogic(contentArr);
+    }
+
+    @Override
+    public List<CallRecordModel> uploadFileViaParameters(MultipartFile file) throws IOException, ParseException {
+        String[] content = fileContentProvider.contentGeneratorForParameters(file);
+        return parseLogic(content);
+    }
+
+    private List<CallRecordModel> parseLogic(String[] content) throws ParseException {
+        List<CallRecordModel> listOfEvents = new ArrayList<>();
 
         for( String str : content) {
             String[] callRecord = str.split(",");
@@ -43,9 +56,7 @@ public class DataServiceImpl implements DataService {
     }
 
     private Date stringToDate(String stringDate) throws ParseException {
-        Date date;
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-        date = df.parse(stringDate.trim());
-        return date;
+        return df.parse(stringDate.trim());
     }
 }
