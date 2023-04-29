@@ -113,4 +113,17 @@ public class TariffServiceTest {
         tariffService.saveTariff(new TariffModel("test", tariffCallTypeModels));
         verify(callTypeCostRepository, times(1)).save(any(TariffCallTypeCost.class));
     }
+
+    @Test
+    public void should_get_currency_by_tariff_id_returned_currency_name() {
+        String expectedName = "euro";
+
+        when(tariffRepository.findCurrencyByTariffId(tariffId)).thenReturn(expectedName);
+
+        String actualName = tariffService.getCurrencyByTariffId(tariffId);
+
+        verify(tariffRepository, times(1)).findCurrencyByTariffId(tariffId);
+
+        assertEquals(expectedName, actualName);
+    }
 }
