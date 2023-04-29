@@ -34,6 +34,7 @@ public class AccountServiceImpl implements AccountService {
           .map(elem -> new UserBalanceModel(
             elem.getUserId(),
             elem.getBalance()
-          )).collect(Collectors.toList());
+          ))
+          .collect(Collectors.toList());
     }
 }

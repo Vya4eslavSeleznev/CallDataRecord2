@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -67,9 +66,9 @@ public class AccountCallServiceTest {
 
     @Test
     public void should_add_call_with_positive_balance() throws BalanceLessThanZeroException, AccountNotFoundException {
-        doReturn(accountOpt).when(accountRepository).findById(account.getId());
-        doReturn(accountCall).when(accountCallRepository).save(any(AccountCall.class));
-        doReturn(account).when(accountRepository).save(any(Account.class));
+        when(accountRepository.findById(account.getId())).thenReturn(accountOpt);
+        when(accountCallRepository.save(any(AccountCall.class))).thenReturn(accountCall);
+        when(accountRepository.save(any(Account.class))).thenReturn(account);
 
         accountCallService.addCall(callCostCalculatedEvent);
 
@@ -81,12 +80,12 @@ public class AccountCallServiceTest {
     @Test
     public void should_not_add_call_with_negative_balance_exception() {
         account.setBalance(-100);
-        doReturn(accountOpt).when(accountRepository).findById(account.getId());
+        when(accountRepository.findById(account.getId())).thenReturn(accountOpt);
         assertThrows(BalanceLessThanZeroException.class, () -> accountCallService.addCall(callCostCalculatedEvent));
     }
 
     @Test
-    public void should_find_user_calls() {
+    public void should_find_user_calls_returned_user_call_model() {
         long userId = 8L;
         List<AccountCall> accountCallList = List.of(accountCall);
 
@@ -108,8 +107,8 @@ public class AccountCallServiceTest {
 
         UserCallsModel expectedUserCallsModel = new UserCallsModel(callResponseModels, totalAmount);
 
-        doReturn(account).when(accountRepository).findByUserId(userId);
-        doReturn(accountCallList).when(accountCallRepository).findByAccountId(account.getId());
+        when(accountRepository.findByUserId(userId)).thenReturn(account);
+        when(accountCallRepository.findByAccountId(account.getId())).thenReturn(accountCallList);
 
         UserCallsModel actualUserCallsModel = accountCallService.findUserCalls(userId);
 
@@ -140,7 +139,7 @@ public class AccountCallServiceTest {
           expectedUserCallsModel.getAccountCallList().get(0).getStartTime(),
           actualUserCallsModel.getAccountCallList().get(0).getStartTime()
         );
-        
+
         assertEquals(expectedUserCallsModel.getTotalAmount(), actualUserCallsModel.getTotalAmount());
     }
 }
