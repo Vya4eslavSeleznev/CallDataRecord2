@@ -61,3 +61,5 @@ mvnw.cmd
 .idea/*
 target/*
 CallDataRecord2.iml
+
+data/db/*
