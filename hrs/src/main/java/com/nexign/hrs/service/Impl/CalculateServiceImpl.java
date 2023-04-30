@@ -27,6 +27,8 @@ public class CalculateServiceImpl implements CalculateService {
           event.getCallType()
         );
 
+        System.out.println(event.getTariffId());
+
         Optional<TariffInfoModel> tariffInfoOpt = findTariff(tariffList, TariffType.PREPAID, event.getCallType());
         Optional<TariffInfoModel> tariffAboveInfoOpt = findTariff(tariffList, TariffType.POSTPAID, event.getCallType());
 
