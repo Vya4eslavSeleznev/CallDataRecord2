@@ -1,0 +1,63 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:14
+    container_name: postgres
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: [ "CMD", "pg_isready","-d","postgres","-U","postgres" ]
+      interval: 5s
+      timeout: 1s
+      retries: 5
+      start_period: 5s
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "root123"
+      POSTGRES_DB: "postgres"
+    volumes:
+      - ./data/01_create_brt.sql:/docker-entrypoint-initdb.d/01_create_brt.sql
+      - ./data/02_create_tariff.sql:/docker-entrypoint-initdb.d/02_create_tariff.sql
+      - ./data/03_create_user.sql:/docker-entrypoint-initdb.d/03_create_user.sql
+      - ./data/04_init_tariff.sql:/docker-entrypoint-initdb.d/04_init_tariff.sql.sql
+      - ./data/05_init_user.sql:/docker-entrypoint-initdb.d/05_init_user.sql
+      - ./data/06_init_brt.sql:/docker-entrypoint-initdb.d/06_init_brt.sql
+      - ./data/db:/var/lib/postgresql/data
+    restart: always
+
+  activemq:
+    image: rmohr/activemq:5.10.0
+    restart: always
+    container_name: nexign
+    ports:
+      - "61616:61616" # broker (admin:adminactivemq)(amq:amq)
+      - "8161:8161"   # web    http://boot2docker:8161/admin (admin:admin)
+    network_mode: host
+    healthcheck:
+      test: curl -sS http://127.0.0.1:8161:8161 || echo 1
+      interval: 5s
+      timeout: 1s
+      retries: 5
+
+  user:
+    image:  user:1.0.0
+    restart: always
+    container_name: nexign
+    ports:
+      - 8802:8802
+    network_mode: host
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  tariff:
+    image:  tariff:1.0.0
+    restart: always
+    container_name: nexign
+    ports:
+      - 8803:8803
+    network_mode: host
+    depends_on:
+      postgres:
+        condition: service_healthy
