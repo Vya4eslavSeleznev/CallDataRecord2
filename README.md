@@ -177,8 +177,8 @@
 
 ```json
 {
-    "username": "username",
-    "password": "password"
+  "username": "q",
+  "password": "pwd"
 }
 ```
 
@@ -186,7 +186,7 @@
 
 ```json
 {
-    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1dXUiLCJyb2xlIjoiVVNFUiIsImlhdCI6MTY4Mjk1ODk1NCwiZXhwIjoxNjgyOTY5NzU0fQ.oYbi_jHaGUUJB2j8xUnGrcMMhWdwcxdBQMA4Tno_1Cs"
+  "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE2ODI5NzM5MDMsImV4cCI6MTY4Mjk4NDcwM30.BcHmNWgtaiN0F7Ry0puxchjPGWy2i5VT-Lp7dMb2quc"
 }
 ```
 
@@ -198,8 +198,8 @@
 
 ```json
 {
-    "phoneNumber": "73734435243", 
-    "amount": 50000
+  "phoneNumber": "73734435243",
+  "amount": 5000
 }
 ```
 
@@ -207,9 +207,9 @@
 
 ```json
 {
-    "id": 19,
-    "phoneNumber": "73734435243",
-    "money": 50000.0
+  "id": 2,
+  "phoneNumber": "73734435243",
+  "money": 5000
 }
 ```
 
@@ -221,34 +221,20 @@
 
 ```json
 {
-    "id": 36,
-    "phoneNumber": "73734435243",
-    "tariffIndex": 14,
-    "payload": [
-        {
-            "callType": "INPUT",
-            "startTime": "2023-07-25T11:14:48.000+00:00",
-            "endTime": "2023-07-25T11:21:10.000+00:00",
-            "duration": "PT6M22S",
-            "cost": 35.37037
-        },
-        {
-            "callType": "INPUT",
-            "startTime": "2023-07-25T11:14:48.000+00:00",
-            "endTime": "2023-07-25T11:21:10.000+00:00",
-            "duration": "PT6M22S",
-            "cost": 2.122222
-        },
-        {
-            "callType": "INPUT",
-            "startTime": "2023-07-25T11:14:48.000+00:00",
-            "endTime": "2023-07-25T11:21:10.000+00:00",
-            "duration": "PT6M22S",
-            "cost": 127.333333
-        }
-    ],
-    "totalCost": 164.825925,
-    "monetaryUnit": "Ruble"
+  "id": 1,
+  "phoneNumber": "73734435243",
+  "tariffIndex": 2,
+  "payload": [
+    {
+      "callType": "INPUT",
+      "startTime": "2023-07-25T14:14:48.000+00:00",
+      "endTime": "2023-07-25T14:21:10.000+00:00",
+      "duration": "PT6M22S",
+      "cost": 2.122222
+    }
+  ],
+  "totalCost": 2.122222,
+  "monetaryUnit": "Euro"
 }
 ```
 
@@ -260,32 +246,36 @@
 
 ```json
 {
-    "numbers": [
-        {
-            "phoneNumber": "73734435243",
-            "balance": 104101.614818
-        },
-        {
-            "phoneNumber": "73160252296",
-            "balance": 3977.925926
-        },
-        {
-            "phoneNumber": "71911814507",
-            "balance": 3821.970368
-        },
-        {
-            "phoneNumber": "75247690175",
-            "balance": 3934.9037
-        },
-        {
-            "phoneNumber": "71768318906",
-            "balance": 3849.755558
-        },
-        {
-            "phoneNumber": "75211122285",
-            "balance": 4126.711108
-        }
-    ]
+  "numbers": [
+    {
+      "phoneNumber": "73160252296",
+      "balance": 6991.333333
+    },
+    {
+      "phoneNumber": "71911814507",
+      "balance": 994.216667
+    },
+    {
+      "phoneNumber": "75247690175",
+      "balance": 996.844444
+    },
+    {
+      "phoneNumber": "71768318906",
+      "balance": 694.475
+    },
+    {
+      "phoneNumber": "75211122285",
+      "balance": 670.5
+    },
+    {
+      "phoneNumber": "999",
+      "balance": 999
+    },
+    {
+      "phoneNumber": "73734435243",
+      "balance": 12497.877778
+    }
+  ]
 }
 ```
 
@@ -297,11 +287,11 @@
 
 ```json
 {
-    "phoneNumber": "79990000011",
-    "password": "pwd",
-    "username": "nexign",
-    "tariffId": 12,
-    "balance": 4444
+  "phoneNumber": "89990000011",
+  "password": "pwd",
+  "username": "nexign",
+  "tariffId": 1,
+  "balance": 11
 }
 ```
 
@@ -309,9 +299,9 @@
 
 ```json
 {
-    "phoneNumber": "79990000011",
-    "tariffId": 12,
-    "balance": 4444.0
+  "phoneNumber": "89990000011",
+  "tariffId": 1,
+  "balance": 11
 }
 ```
 
@@ -323,8 +313,8 @@
 
 ```json
 {
-    "phoneNumber": "79990000011",
-    "tariffId": 12
+  "phoneNumber": "73734435243",
+  "tariffId": 1
 }
 ```
 
@@ -332,9 +322,9 @@
 
 ```json
 {
-    "id": 42,
-    "phoneNumber": "79990000011",
-    "tariffId": 12
+  "id": 1,
+  "phoneNumber": "73734435243",
+  "tariffId": 1
 }
 ```
 
@@ -346,7 +336,7 @@
 
 ```json
 {
-    "password": "q",
+    "password": "pwd",
     "username": "nexign_manager",
     "role": "MANAGER"
 }
@@ -362,7 +352,7 @@ http://localhost:8082/swagger-ui/index.html#/
 
 # Как запустить?
 
-- Предварительно мной были созданы все образы микросервисов и добавлены на [DockerHub](https://hub.docker.com/repositories/vya4eslava):
+- Предварительно мной были созданы все образы микросервисов и добавлены на [DockerHub](https://hub.docker.com/u/vya4eslava):
 
 - Для запуска Вам необходимо клонировать на свой компьютер репозиторий. Либо скачать .zip архив с проектом. После этого
 выполнить команду:
