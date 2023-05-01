@@ -7,17 +7,13 @@ import com.nexign.cdr.service.DataGenerator;
 import com.nexign.cdr.service.DataService;
 import com.nexign.common.model.CallRecordModel;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.text.ParseException;
 import java.util.List;
 
@@ -48,11 +44,5 @@ public class DataGeneratorImpl implements DataGenerator {
             e.printStackTrace();
             throw new InvalidInputDataException();
         }
-
-//        if(listOfEvents == null) {
-//            throw new EmptyFileException();
-//        }
-
-        //cdrSender.sendEvents(listOfEvents);
     }
 }
