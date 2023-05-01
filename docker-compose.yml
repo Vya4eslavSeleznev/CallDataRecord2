@@ -93,6 +93,8 @@ services:
       dockerfile: Dockerfile
     restart: always
     container_name: cdr
+    ports:
+      - 8083:8080
     depends_on:
       - activemq
 

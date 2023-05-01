@@ -62,3 +62,10 @@ INSERT INTO public.user_credential(
 INSERT INTO public.customer(
 	user_id, phone, tariff_id)
 	VALUES (6, '75211122285', 3);
+
+
+
+
+INSERT INTO public.user_credential(
+	role, password, username)
+	VALUES ('MANAGER', '$2a$10$jYW9KOoIS5Tn7mUIksmcm.paNlq9VCT86dMEFGJFE.2m6iTucxjZ2', 'manager');

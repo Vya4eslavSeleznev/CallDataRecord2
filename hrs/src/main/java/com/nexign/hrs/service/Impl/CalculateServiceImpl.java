@@ -27,14 +27,16 @@ public class CalculateServiceImpl implements CalculateService {
           event.getCallType()
         );
 
-        System.out.println(event.getTariffId());
+        System.out.println(event.getTariffId() + "=====================================================================================");
+
+        System.out.println(event.getCallType() + "=====================================================================================");
 
         Optional<TariffInfoModel> tariffInfoOpt = findTariff(tariffList, TariffType.PREPAID, event.getCallType());
         Optional<TariffInfoModel> tariffAboveInfoOpt = findTariff(tariffList, TariffType.POSTPAID, event.getCallType());
 
         if(tariffInfoOpt.isPresent() && event.getMinutesSpent() < tariffInfoOpt.get().getInterval()) {
             return calculationInternal(event, tariffInfoOpt.get());
-        } else if(tariffAboveInfoOpt.isPresent() && event.getMinutesSpent() >= tariffAboveInfoOpt.get().getInterval()) {
+        } else if(tariffAboveInfoOpt.isPresent()) {
             return calculationInternal(event, tariffAboveInfoOpt.get());
         } else {
             throw new AboveTariffRateNotFoundException();

@@ -8,6 +8,7 @@ import com.nexign.common.model.UserCredentialModel;
 import com.nexign.crm.model.*;
 import com.nexign.crm.service.CrmService;
 import com.nexign.crm.service.SignInService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,31 +35,37 @@ public class CrmController {
     }
 
     @PatchMapping("/abonent/pay/")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<PaymentResponseModel> payment(@RequestBody PaymentModel paymentModel) {
         return new ResponseEntity<>(crmService.callBrtPayment(paymentModel), HttpStatus.OK);
     }
 
     @GetMapping("/abonent/report/{phoneNumber}")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ReportModel> customerReport(@PathVariable String phoneNumber) {
         return new ResponseEntity<>(crmService.generateReport(phoneNumber), HttpStatus.OK);
     }
 
     @PatchMapping("/manager/billing")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<BillingModel> billing() {
         return new ResponseEntity<>(crmService.runBilling(), HttpStatus.OK);
     }
 
     @PostMapping("/manager/abonent")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<CreateCustomerResponse> createUser(@RequestBody CreateCustomerModel createCustomerModel) {
         return new ResponseEntity<>(crmService.createCustomer(createCustomerModel), HttpStatus.OK);
     }
 
     @PatchMapping("manager/changeTariff")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ChangeTariffResponseModel> changeTariff(@RequestBody ChangeTariffModel changeTariffModel) {
         return new ResponseEntity<>(crmService.changeTariff(changeTariffModel), HttpStatus.OK);
     }
 
     @PostMapping("/manager/profile")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<?> createManager(@RequestBody UserCredentialModel userCredentialModel) {
         crmService.createManager(userCredentialModel);
         return new ResponseEntity<>(HttpStatus.OK);
