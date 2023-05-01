@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nexign.common.model.*;
+import com.nexign.crm.exception.PaymentLessThanZeroException;
 import com.nexign.crm.model.*;
 import com.nexign.crm.service.CallUrlService;
 import com.nexign.crm.service.CrmGateway;
@@ -40,11 +41,15 @@ public class CrmServiceImpl implements CrmService {
     }
 
     @Override
-    public PaymentResponseModel callBrtPayment(PaymentModel paymentModel) {
+    public PaymentResponseModel callBrtPayment(PaymentModel paymentModel) throws PaymentLessThanZeroException {
         String resultId = callUrlService.callUrl(paymentModel, brtPaymentUrl, HttpMethod.PUT).getBody();
 
         if(resultId == null) {
             return null;
+        }
+
+        if(paymentModel.getAmount() < 0) {
+            throw new PaymentLessThanZeroException();
         }
 
         return new PaymentResponseModel(

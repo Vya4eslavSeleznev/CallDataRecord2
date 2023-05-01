@@ -5,6 +5,7 @@ import com.nexign.common.model.AuthRequestModel;
 import com.nexign.common.model.ChangeTariffModel;
 import com.nexign.common.model.PaymentModel;
 import com.nexign.common.model.UserCredentialModel;
+import com.nexign.crm.exception.PaymentLessThanZeroException;
 import com.nexign.crm.model.*;
 import com.nexign.crm.service.CrmService;
 import com.nexign.crm.service.SignInService;
@@ -37,7 +38,12 @@ public class CrmController {
     @PatchMapping("/abonent/pay/")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<PaymentResponseModel> payment(@RequestBody PaymentModel paymentModel) {
-        return new ResponseEntity<>(crmService.callBrtPayment(paymentModel), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(crmService.callBrtPayment(paymentModel), HttpStatus.OK);
+        }
+        catch(PaymentLessThanZeroException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/abonent/report/{phoneNumber}")
