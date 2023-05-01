@@ -43,12 +43,6 @@ public class DataGeneratorImpl implements DataGenerator {
                 listOfEvents = dataService.uploadFileInit(text);
                 cdrSender.sendEvents(listOfEvents);
             }
-
-
-//            File resource = new ClassPathResource("data" + File.separator + "cdr2.txt").getFile();
-//            System.out.println(resource.toPath());
-//            System.out.println(new String(Files.readAllBytes(resource.toPath())));
-//            listOfEvents = dataService.uploadFileInit(new String(Files.readAllBytes(resource.toPath())));
         }
         catch(IOException | ParseException e) {
             e.printStackTrace();

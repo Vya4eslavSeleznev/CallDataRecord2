@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.File;
 import java.util.List;
 
 @Service
@@ -22,7 +23,7 @@ public class TariffGatewayImpl implements TariffGateway {
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<List<TariffInfoModel>> rateResponse =
-          restTemplate.exchange(url + tariffId + "/" + callType,
+          restTemplate.exchange(url + tariffId + File.separator + callType,
             HttpMethod.GET, null, new ParameterizedTypeReference<>() {});
 
         return rateResponse.getBody();

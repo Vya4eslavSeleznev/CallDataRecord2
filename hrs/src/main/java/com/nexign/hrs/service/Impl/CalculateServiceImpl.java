@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -26,10 +25,6 @@ public class CalculateServiceImpl implements CalculateService {
           event.getTariffId(),
           event.getCallType()
         );
-
-        System.out.println(event.getTariffId() + "=====================================================================================");
-
-        System.out.println(event.getCallType() + "=====================================================================================");
 
         Optional<TariffInfoModel> tariffInfoOpt = findTariff(tariffList, TariffType.PREPAID, event.getCallType());
         Optional<TariffInfoModel> tariffAboveInfoOpt = findTariff(tariffList, TariffType.POSTPAID, event.getCallType());

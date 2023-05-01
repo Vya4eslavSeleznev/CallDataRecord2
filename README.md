@@ -150,23 +150,196 @@
 |PerMinute |    2     |
 | Custom   |    3     |
 
-У тарифа `Unlimited` входящие и исходящие `300 min` за `100 rub` после `1 min` за `1.5 rub`
-У тарифа `PerMinute` входящие и исходящие по тарифу `500 eur` за `250 min` после входящие `1 min` за `3 eur`, а
+- У тарифа `Unlimited` входящие и исходящие `300 min` за `100 rub` после `1 min` за `1.5 rub`
+- У тарифа `PerMinute` входящие и исходящие по тарифу `500 eur` за `250 min` после входящие `1 min` за `3 eur`, а
 исходящие `1 min` за `1 eur`
-У тарифа `Custom` входящие `1 usd` за `0.5 min`, а исходящие `1 min` за `5 usd`
+- У тарифа `Custom` входящие `1 usd` за `0.5 min`, а исходящие `1 min` за `5 usd`
 
 # Описание эндпоинтов
 
- - В `crm` доступно 7 
+### `http://localhost:8082/crm/signin`
+
+- Для использование приложения необходимо авторизироваться
+
+- Body:
+
+```json
+{
+    "username": "username",
+    "password": "password"
+}
+```
+
+- Response:
+
+```json
+{
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1dXUiLCJyb2xlIjoiVVNFUiIsImlhdCI6MTY4Mjk1ODk1NCwiZXhwIjoxNjgyOTY5NzU0fQ.oYbi_jHaGUUJB2j8xUnGrcMMhWdwcxdBQMA4Tno_1Cs"
+}
+```
+
+### `http://localhost:8082/crm/abonent/pay/`
+
+- Пополнение баланса пользователя
+
+- Body:
+
+```json
+{
+    "phoneNumber": "73734435243", 
+    "amount": 50000
+}
+```
+
+- Response:
+
+```json
+{
+    "id": 19,
+    "phoneNumber": "73734435243",
+    "money": 50000.0
+}
+```
+
+### `http://localhost:8082/crm/abonent/report/{phoneNumber}`
+
+- Получение отчета по звонкам для пользователя по номеру телефона
+
+- Response:
+
+```json
+{
+    "id": 36,
+    "phoneNumber": "73734435243",
+    "tariffIndex": 14,
+    "payload": [
+        {
+            "callType": "INPUT",
+            "startTime": "2023-07-25T11:14:48.000+00:00",
+            "endTime": "2023-07-25T11:21:10.000+00:00",
+            "duration": "PT6M22S",
+            "cost": 35.37037
+        },
+        {
+            "callType": "INPUT",
+            "startTime": "2023-07-25T11:14:48.000+00:00",
+            "endTime": "2023-07-25T11:21:10.000+00:00",
+            "duration": "PT6M22S",
+            "cost": 2.122222
+        },
+        {
+            "callType": "INPUT",
+            "startTime": "2023-07-25T11:14:48.000+00:00",
+            "endTime": "2023-07-25T11:21:10.000+00:00",
+            "duration": "PT6M22S",
+            "cost": 127.333333
+        }
+    ],
+    "totalCost": 164.825925,
+    "monetaryUnit": "Ruble"
+}
+```
 
 
+### `http://localhost:8082/crm/manager/billing`
 
+- Выполнение тарификации для всех пользователей
 
+- Response:
 
+```json
+{
+    "numbers": [
+        {
+            "phoneNumber": "73734435243",
+            "balance": 104101.614818
+        },
+        {
+            "phoneNumber": "73160252296",
+            "balance": 3977.925926
+        },
+        {
+            "phoneNumber": "71911814507",
+            "balance": 3821.970368
+        },
+        {
+            "phoneNumber": "75247690175",
+            "balance": 3934.9037
+        },
+        {
+            "phoneNumber": "71768318906",
+            "balance": 3849.755558
+        },
+        {
+            "phoneNumber": "75211122285",
+            "balance": 4126.711108
+        }
+    ]
+}
+```
 
+### `http://localhost:8082/crm/manager/abonent`
 
+- Добавление нового пользователя
 
+- Body:
 
+```json
+{
+    "phoneNumber": "79990000011",
+    "password": "pwd",
+    "username": "nexign",
+    "tariffId": 12,
+    "balance": 4444
+}
+```
+
+- Response:
+
+```json
+{
+    "phoneNumber": "79990000011",
+    "tariffId": 12,
+    "balance": 4444.0
+}
+```
+
+### `http://localhost:8082/crm/manager/changeTariff`
+
+- Изменение тарифа у пользователя
+
+- Body:
+
+```json
+{
+    "phoneNumber": "79990000011",
+    "tariffId": 12
+}
+```
+
+- Response:
+
+```json
+{
+    "id": 42,
+    "phoneNumber": "79990000011",
+    "tariffId": 12
+}
+```
+
+### `http://localhost:8086/crm/manager/profile`
+
+- Добавление менеджера в систему
+
+- Body:
+
+```json
+{
+    "password": "q",
+    "username": "nexign_manager",
+    "role": "MANAGER"
+}
+```
 
 # Как запустить
 Ссылка на докер хаб
