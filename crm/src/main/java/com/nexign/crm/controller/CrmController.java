@@ -5,7 +5,7 @@ import com.nexign.common.model.AuthRequestModel;
 import com.nexign.common.model.ChangeTariffModel;
 import com.nexign.common.model.PaymentModel;
 import com.nexign.common.model.UserCredentialModel;
-import com.nexign.crm.exception.PaymentLessThanZeroException;
+import com.nexign.crm.exception.UnauthorizedException;
 import com.nexign.crm.model.*;
 import com.nexign.crm.service.CrmService;
 import com.nexign.crm.service.SignInService;
@@ -37,18 +37,18 @@ public class CrmController {
     @PatchMapping("/abonent/pay/")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<PaymentResponseModel> payment(@RequestBody PaymentModel paymentModel) {
-        try {
-            return new ResponseEntity<>(crmService.callBrtPayment(paymentModel), HttpStatus.OK);
-        }
-        catch(PaymentLessThanZeroException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(crmService.callBrtPayment(paymentModel), HttpStatus.OK);
     }
 
     @GetMapping("/abonent/report/{phoneNumber}")
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<ReportModel> customerReport(@PathVariable String phoneNumber) {
-        return new ResponseEntity<>(crmService.generateReport(phoneNumber), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(crmService.generateReport(phoneNumber), HttpStatus.OK);
+        }
+        catch(UnauthorizedException e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 
     @PatchMapping("/manager/billing")

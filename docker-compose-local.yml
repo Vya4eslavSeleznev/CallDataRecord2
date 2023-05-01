@@ -1,0 +1,115 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:14
+    container_name: postgres
+    ports:
+      - 5433:5432
+    healthcheck:
+      test:
+        - CMD
+        - pg_isready
+        - -d
+        - postgres
+        - -U
+        - postgres
+      interval: 5s
+      timeout: 1s
+      retries: 5
+      start_period: 5s
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root123
+      POSTGRES_DB: postgres
+    volumes:
+      - ./data/01_create_brt.sql:/docker-entrypoint-initdb.d/01_create_brt.sql
+      - ./data/02_create_tariff.sql:/docker-entrypoint-initdb.d/02_create_tariff.sql
+      - ./data/03_create_user.sql:/docker-entrypoint-initdb.d/03_create_user.sql
+      - ./data/04_init_tariff.sql:/docker-entrypoint-initdb.d/04_init_tariff.sql.sql
+      - ./data/05_init_user.sql:/docker-entrypoint-initdb.d/05_init_user.sql
+      - ./data/06_init_brt.sql:/docker-entrypoint-initdb.d/06_init_brt.sql
+      - ./data/db:/var/lib/postgresql/data
+    restart: always
+
+  activemq:
+    image: rmohr/activemq:5.10.0
+    restart: always
+    container_name: activemq
+    ports:
+      - 8162:8161
+
+  user:
+    image: user:latest
+    build:
+      context: ./user
+      dockerfile: Dockerfile
+    restart: always
+    container_name: user
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  tariff:
+    image: tariff:latest
+    build:
+      context: ./tariff
+      dockerfile: Dockerfile
+    restart: always
+    container_name: tariff
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  brt:
+    image: brt:latest
+    build:
+      context: ./brt
+      dockerfile: Dockerfile
+    restart: always
+    container_name: brt
+    depends_on:
+      - tariff
+      - user
+      - cdr
+      - postgres
+      - activemq
+
+  hrs:
+    image: hrs:latest
+    build:
+      context: ./hrs
+      dockerfile: Dockerfile
+    restart: always
+    container_name: hrs
+    depends_on:
+      - brt
+      - activemq
+
+  cdr:
+    image: cdr:latest
+    build:
+      context: ./cdr
+      dockerfile: Dockerfile
+    restart: always
+    container_name: cdr
+    ports:
+      - 8083:8080
+    depends_on:
+      - activemq
+
+  crm:
+    image: crm:latest
+    build:
+      context: ./crm
+      dockerfile: Dockerfile
+    restart: always
+    container_name: crm
+    ports:
+      - 8082:8080
+    depends_on:
+      - tariff
+      - user
+      - cdr
+      - brt
+      - hrs

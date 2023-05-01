@@ -1,5 +1,6 @@
 package com.nexign.brt.controller;
 
+import com.nexign.brt.exception.PaymentLessThanZeroException;
 import com.nexign.common.model.PaymentModel;
 import com.nexign.brt.service.AccountTransactionService;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,8 @@ public class AccountTransactionController {
     private AccountTransactionService accountTransactionService;
 
     @PutMapping
-    public ResponseEntity<Long> customerPayment(@RequestBody PaymentModel paymentModel) {
+    public ResponseEntity<Long> customerPayment(@RequestBody PaymentModel paymentModel)
+      throws PaymentLessThanZeroException {
         long accountTransactionId =
           accountTransactionService.addTransaction(paymentModel.getPhoneNumber(), paymentModel.getAmount());
 

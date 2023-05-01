@@ -2,6 +2,7 @@ package com.nexign.brt.service.impl;
 
 import com.nexign.brt.entity.Account;
 import com.nexign.brt.entity.AccountTransaction;
+import com.nexign.brt.exception.PaymentLessThanZeroException;
 import com.nexign.common.model.FindByPhoneModel;
 import com.nexign.brt.repository.AccountRepository;
 import com.nexign.brt.repository.AccountTransactionRepository;
@@ -19,7 +20,11 @@ public class AccountTransactionServiceImpl implements AccountTransactionService 
     private AccountRepository accountRepository;
 
     @Override
-    public long addTransaction(String phoneNumber, double amount) {
+    public long addTransaction(String phoneNumber, double amount) throws PaymentLessThanZeroException {
+        if(amount <= 0) {
+            throw new PaymentLessThanZeroException();
+        }
+
         FindByPhoneModel userInfo = userGateway.getUserInfo(phoneNumber);
         Account account = accountRepository.findByUserId(userInfo.getUserId());
 
