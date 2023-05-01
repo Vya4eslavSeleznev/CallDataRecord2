@@ -40,10 +40,7 @@ services:
       - 8162:8161
 
   user:
-    image: user:latest
-    build:
-      context: ./user
-      dockerfile: Dockerfile
+    image: vya4eslava/user:latest
     restart: always
     container_name: user
     depends_on:
@@ -51,10 +48,7 @@ services:
         condition: service_healthy
 
   tariff:
-    image: tariff:latest
-    build:
-      context: ./tariff
-      dockerfile: Dockerfile
+    image: vya4eslava/tariff:latest
     restart: always
     container_name: tariff
     depends_on:
@@ -62,10 +56,7 @@ services:
         condition: service_healthy
 
   brt:
-    image: brt:latest
-    build:
-      context: ./brt
-      dockerfile: Dockerfile
+    image: vya4eslava/brt:latest
     restart: always
     container_name: brt
     depends_on:
@@ -76,10 +67,7 @@ services:
       - activemq
 
   hrs:
-    image: hrs:latest
-    build:
-      context: ./hrs
-      dockerfile: Dockerfile
+    image: vya4eslava/hrs:latest
     restart: always
     container_name: hrs
     depends_on:
@@ -87,10 +75,7 @@ services:
       - activemq
 
   cdr:
-    image: cdr:latest
-    build:
-      context: ./cdr
-      dockerfile: Dockerfile
+    image: vya4eslava/cdr:latest
     restart: always
     container_name: cdr
     ports:
@@ -99,10 +84,7 @@ services:
       - activemq
 
   crm:
-    image: crm:latest
-    build:
-      context: ./crm
-      dockerfile: Dockerfile
+    image: vya4eslava/crm:latest
     restart: always
     container_name: crm
     ports:
