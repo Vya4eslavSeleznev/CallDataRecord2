@@ -53,3 +53,13 @@ common/.mvn/wrapper/maven-wrapper.properties
 common/.idea/*
 common/target/*
 common/common.iml
+
+mvnw
+mvnw.cmd
+.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+.idea/*
+target/*
+CallDataRecord2.iml
+
+data/db/*

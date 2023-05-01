@@ -1,13 +1,9 @@
 package com.nexign.user.service;
 
-import com.nexign.common.model.ChangeTariffModel;
-import com.nexign.common.model.CreateProfileModel;
-import com.nexign.common.model.Role;
-import com.nexign.common.model.UserPhoneNumberModel;
+import com.nexign.common.model.*;
 import com.nexign.user.entity.Customer;
 import com.nexign.user.entity.UserCredential;
 import com.nexign.user.exception.CustomerNotFoundException;
-import com.nexign.user.model.FindByPhoneModel;
 import com.nexign.user.repository.CustomerRepository;
 import com.nexign.user.service.impl.CustomerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,7 +55,8 @@ public class CustomerServiceTest {
     public void should_find_by_phone_number_with_not_null_customer_customer_returned() throws CustomerNotFoundException {
         FindByPhoneModel expectedModel = new FindByPhoneModel(
           expectedCustomer.getUserCredential().getId(),
-          expectedCustomer.getTariffId()
+          expectedCustomer.getTariffId(),
+          expectedCustomer.getUserCredential().getUsername()
         );
 
         when(customerRepository.findByPhoneNumber(phone)).thenReturn(expectedCustomer);

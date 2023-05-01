@@ -10,4 +10,5 @@ public class FindByPhoneModel {
 
     private long userId;
     private long tariffId;
+    private String username;
 }

@@ -2,11 +2,11 @@ package com.nexign.user.service.impl;
 
 import com.nexign.common.model.ChangeTariffModel;
 import com.nexign.common.model.CreateProfileModel;
+import com.nexign.common.model.FindByPhoneModel;
 import com.nexign.common.model.UserPhoneNumberModel;
 import com.nexign.user.entity.Customer;
 import com.nexign.user.entity.UserCredential;
 import com.nexign.user.exception.CustomerNotFoundException;
-import com.nexign.user.model.FindByPhoneModel;
 import com.nexign.user.repository.CustomerRepository;
 import com.nexign.user.service.CustomerService;
 import lombok.AllArgsConstructor;
@@ -31,7 +31,8 @@ public class CustomerServiceImpl implements CustomerService {
             throw new CustomerNotFoundException();
         }
 
-        return new FindByPhoneModel(customer.getUserCredential().getId(), customer.getTariffId());
+        return new FindByPhoneModel(customer.getUserCredential().getId(), customer.getTariffId(),
+          customer.getUserCredential().getUsername());
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.nexign.brt.service;
 
 import com.nexign.brt.entity.Account;
 import com.nexign.brt.entity.AccountTransaction;
+import com.nexign.brt.exception.PaymentLessThanZeroException;
 import com.nexign.brt.repository.AccountRepository;
 import com.nexign.brt.repository.AccountTransactionRepository;
 import com.nexign.brt.service.impl.AccountTransactionServiceImpl;
@@ -40,13 +41,14 @@ public class AccountTransactionTest {
     }
 
     @Test
-    public void should_add_transaction_returned_transaction_id() {
+    public void should_add_transaction_returned_transaction_id() throws PaymentLessThanZeroException {
         String phone = "89997776655";
         long userId = 4L;
         double amount = 200;
         long expectedTransactionId = 10L;
+        String username = "username";
 
-        FindByPhoneModel model = new FindByPhoneModel(userId, 3L);
+        FindByPhoneModel model = new FindByPhoneModel(userId, 3L, username);
         Account account = new Account(userId, amount);
         AccountTransaction accountTransaction = new AccountTransaction(account, amount);
         accountTransaction.setId(expectedTransactionId);

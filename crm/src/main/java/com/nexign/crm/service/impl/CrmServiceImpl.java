@@ -4,14 +4,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nexign.common.model.*;
+import com.nexign.crm.exception.UnauthorizedException;
 import com.nexign.crm.model.*;
 import com.nexign.crm.service.CallUrlService;
 import com.nexign.crm.service.CrmGateway;
 import com.nexign.crm.service.CrmService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,12 +72,14 @@ public class CrmServiceImpl implements CrmService {
     }
 
     @Override
-    public ReportModel generateReport(String phoneNumber) {
+    public ReportModel generateReport(String phoneNumber) throws UnauthorizedException {
         FindByPhoneModel findByPhoneModel = crmGateway.findByPhone(phoneNumber);
 
         if(findByPhoneModel == null) {
             return null;
         }
+
+        ensurePhoneBelongsToCurrentUser(findByPhoneModel);
 
         UserCallsModel userCallsModel = crmGateway.getUserCalls(findByPhoneModel);
         String currencyName = crmGateway.getCurrencyNameByTariffId(findByPhoneModel.getTariffId());
@@ -171,5 +175,13 @@ public class CrmServiceImpl implements CrmService {
     @Override
     public void createManager(UserCredentialModel userCredentialModel) {
         callUrlService.callUrl(userCredentialModel, saveManagerUrl, HttpMethod.POST);
+    }
+
+    private void ensurePhoneBelongsToCurrentUser(FindByPhoneModel findByPhoneModel) throws UnauthorizedException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (!findByPhoneModel.getUsername().equals(((UserPrincipalModel) authentication.getPrincipal()).getUsername())) {
+            throw new UnauthorizedException();
+        }
     }
 }

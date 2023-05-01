@@ -3,7 +3,6 @@ package com.nexign.crm.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nexign.common.model.AuthRequestModel;
-import com.nexign.common.model.CallCostCalculatedEvent;
 import com.nexign.crm.model.TokenResponseModel;
 import com.nexign.crm.service.CallUrlService;
 import com.nexign.crm.service.SignInService;

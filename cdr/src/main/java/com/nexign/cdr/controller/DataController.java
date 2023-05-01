@@ -5,11 +5,9 @@ import com.nexign.cdr.service.DataService;
 import com.nexign.common.model.CallRecordModel;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -24,8 +22,12 @@ public class DataController {
     private DataService dataService;
     private CallDataRecordEventSender cdrSender;
 
-    @PostMapping("/file")
-    public ResponseEntity<List<CallRecordModel>> uploadFile(@RequestParam("file") MultipartFile file) {
+    @RequestMapping(
+      path = "/file",
+      method = RequestMethod.POST,
+      consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
+    public ResponseEntity<List<CallRecordModel>> uploadFile(@RequestPart("file") MultipartFile file) {
         List<CallRecordModel> listOfEvents;
         try {
             listOfEvents = dataService.uploadFileViaParameters(file);

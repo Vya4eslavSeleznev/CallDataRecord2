@@ -2,9 +2,9 @@ package com.nexign.user.service;
 
 import com.nexign.common.model.ChangeTariffModel;
 import com.nexign.common.model.CreateProfileModel;
+import com.nexign.common.model.FindByPhoneModel;
 import com.nexign.common.model.UserPhoneNumberModel;
 import com.nexign.user.exception.CustomerNotFoundException;
-import com.nexign.user.model.FindByPhoneModel;
 
 import java.util.List;
 

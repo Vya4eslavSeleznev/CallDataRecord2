@@ -1,5 +1,6 @@
 package com.nexign.brt.controller;
 
+import com.nexign.brt.exception.PaymentLessThanZeroException;
 import com.nexign.common.model.CreateAccountRequestModel;
 import com.nexign.brt.service.AccountService;
 import com.nexign.brt.service.AccountTransactionService;
@@ -21,8 +22,15 @@ public class AccountController {
     private AccountService accountService;
 
     @PostMapping("/balance")
-    public void updateBalanceByPhone(@RequestBody PhoneAndBalanceModel phoneAndBalanceModel) {
-        accountTransactionService.addTransaction(phoneAndBalanceModel.getPhoneNumber(), phoneAndBalanceModel.getBalance());
+    public ResponseEntity<?> updateBalanceByPhone(@RequestBody PhoneAndBalanceModel phoneAndBalanceModel) {
+        try {
+            accountTransactionService.addTransaction(phoneAndBalanceModel.getPhoneNumber(),
+              phoneAndBalanceModel.getBalance());
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch(PaymentLessThanZeroException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping

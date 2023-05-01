@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +31,7 @@ public class CalculateServiceImpl implements CalculateService {
 
         if(tariffInfoOpt.isPresent() && event.getMinutesSpent() < tariffInfoOpt.get().getInterval()) {
             return calculationInternal(event, tariffInfoOpt.get());
-        } else if(tariffAboveInfoOpt.isPresent() && event.getMinutesSpent() >= tariffAboveInfoOpt.get().getInterval()) {
+        } else if(tariffAboveInfoOpt.isPresent()) {
             return calculationInternal(event, tariffAboveInfoOpt.get());
         } else {
             throw new AboveTariffRateNotFoundException();

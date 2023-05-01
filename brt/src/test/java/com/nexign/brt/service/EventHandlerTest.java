@@ -74,7 +74,7 @@ public class EventHandlerTest {
         long userId = 7L;
         tariffId = 7L;
 
-        userInfo = new FindByPhoneModel(userId, tariffId);
+        userInfo = new FindByPhoneModel(userId, tariffId, "username");
         event = new CallRecordModel(callType, "89997776655", startDate, endDate);
         account = new Account(userId, 100L);
     }

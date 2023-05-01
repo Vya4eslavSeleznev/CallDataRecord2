@@ -7,13 +7,13 @@ import com.nexign.cdr.service.DataGenerator;
 import com.nexign.cdr.service.DataService;
 import com.nexign.common.model.CallRecordModel;
 import lombok.AllArgsConstructor;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.List;
 
@@ -27,19 +27,22 @@ public class DataGeneratorImpl implements DataGenerator {
     @PostConstruct
     @Override
     public void generate() throws EmptyFileException, InvalidInputDataException {
-        List<CallRecordModel> listOfEvents;
+        List<CallRecordModel> listOfEvents = null;
         try {
-            File resource = new ClassPathResource("data/cdr2.txt").getFile();
-            listOfEvents = dataService.uploadFileInit(new String(Files.readAllBytes(resource.toPath())));
+
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(
+              File.separator + "data" + File.separator + "cdr2.txt"
+            );
+
+            if(inputStream != null) {
+                String text = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+                listOfEvents = dataService.uploadFileInit(text);
+                cdrSender.sendEvents(listOfEvents);
+            }
         }
         catch(IOException | ParseException e) {
+            e.printStackTrace();
             throw new InvalidInputDataException();
         }
-
-        if(listOfEvents == null) {
-            throw new EmptyFileException();
-        }
-
-        cdrSender.sendEvents(listOfEvents);
     }
 }
