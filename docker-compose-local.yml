@@ -16,7 +16,7 @@ services:
         - postgres
       interval: 5s
       timeout: 1s
-      retries: 5
+      retries: 25
       start_period: 5s
     environment:
       POSTGRES_USER: postgres
