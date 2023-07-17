@@ -67,7 +67,6 @@
 
 - Java 11
 - Spring Boot
-- Spring Mvc
 - Spring Security
 - Spring Data JPA
 - Swagger 3
